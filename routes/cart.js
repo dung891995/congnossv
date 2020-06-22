@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
 })
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
-    var data = req.body
+    var data = req.body 
     //get idUser from token
     var token = req.cookies.token;
     var idUser = jwt.verify(token, 'dung891995');
@@ -24,16 +24,19 @@ router.post('/', async function (req, res, next) {
     console.log(dataAgency);
     var commissionAgency= data.commissionAgency/100;
     var commissionUser= data.commissionUser/100
+    //add cart
     let dataCart= await CartService.newCart(
         data.sim,
-        dataAgency._id,
+        dataAgency.id,
         idUser.id,
         data.entryPrice,
         data.price,
         commissionAgency,
         commissionUser,
         data.fee,
-        data.agencySupport
+        data.agencySupport,
+        data.feeIfFalse,
+        'dailygiao'
     )
     res.json(dataCart)
 })
