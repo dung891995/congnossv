@@ -11,6 +11,7 @@
   </head>
   <body>
     <h1>Công Nợ Simsoviet(giao truc tiep)</h1>
+    <form action="/giaotructiep" method="post">
     <table>
       <tr>
         <td><label for="">Đại Lý</label></td>
@@ -46,5 +47,22 @@
       </tr>
       
     </table>
+    <button type="submit" id="btn"> Thêm Mới </button>
+  </form>
   </body>
 </html>
+<script>
+   $.ajax({
+      url: '/agency',
+      type: 'GET'
+    }).then((result) => {
+      var results= result.map(function(value){
+        return value.name
+      })
+      $(".tags").autocomplete({
+        source: results
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+</script>

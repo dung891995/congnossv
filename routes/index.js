@@ -17,7 +17,6 @@ router.post('/signup', function (req, res, next) {
   var name = req.body.name;
   var email = req.body.email;
   var password = req.body.password;
-
   UserModel.create({
     name: name,
     email: email,
@@ -25,7 +24,6 @@ router.post('/signup', function (req, res, next) {
   }).then((result) => {
     res.json(result)
   }).catch((err) => {
-
   });
 })
 
