@@ -20,5 +20,5 @@ function deleteAgency(_id) {
     return AgencyModel.deleteOne({_id:_id})
 }
 module.exports={
-    addAgency,getALlAgency,editAgency,deleteAgency
+    addAgency,getALlAgency,editAgency,deleteAgency,addSim
 }

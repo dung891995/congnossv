@@ -3,6 +3,7 @@ var CartService = require('../Services/cartService');
 var AgencyService = require('../Services/agencyService');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
 
 router.get('/', function (req, res, next) {
     CartService.getAll().populate("idAgency").populate('idUser').then((result) => {
@@ -26,16 +27,20 @@ router.post('/', async function (req, res, next) {
     var commissionUser= data.commissionUser/100
     let dataCart= await CartService.newCart(
         data.sim,
-        dataAgency._id,
+        dataAgency.id,
         idUser.id,
         data.entryPrice,
         data.price,
         commissionAgency,
         commissionUser,
         data.fee,
-        data.agencySupport
+        data.agencySupport,
+        dataAgency.name
     )
     res.json(dataCart)
+})
+router.put("/:id",function(req,res,next){
+
 })
 
 module.exports = router
