@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
 })
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
-    var data = req.body
+    var data = req.body 
     //get idUser from token
     var token = req.cookies.token;
     var idUser = jwt.verify(token, 'dung891995');
@@ -25,6 +25,7 @@ router.post('/', async function (req, res, next) {
     console.log(dataAgency);
     var commissionAgency= data.commissionAgency/100;
     var commissionUser= data.commissionUser/100
+    //add cart
     let dataCart= await CartService.newCart(
         data.sim,
         dataAgency.id,
@@ -35,7 +36,8 @@ router.post('/', async function (req, res, next) {
         commissionUser,
         data.fee,
         data.agencySupport,
-        dataAgency.name
+        data.feeIfFalse,
+        'dailygiao'
     )
     res.json(dataCart)
 })

@@ -10,7 +10,7 @@ function getAll() {
 //     return CartModel.findOne({name:name})
 // }
 
-function newCart(sim, idAgency, idUser, entryPrice, price, commissionAgency, commissionUser, fee, agencySupport,failureCost) {
+function newCart(sim, idAgency, idUser, entryPrice, price, commissionAgency, commissionUser, fee, agencySupport,feeIfFalse,typeTrade) {
 
     return CartModel.create({
         sim: sim,
@@ -22,28 +22,13 @@ function newCart(sim, idAgency, idUser, entryPrice, price, commissionAgency, com
         commissionUser: commissionUser,
         fee: fee,
         agencySupport: agencySupport,
-        failureCost:failureCost
+        feeIfFalse: feeIfFalse,
+        typeTrade:typeTrade
     })
 }
 
 function editStatus(id, status) {
     return CartModel.updateOne({ _id: id }, { status: status })
 }
-function updateCart(id,sim,idAgency,idUser,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport,failureCost,name){
-    return CartModel.updateOne({
-        _id:id
-    },{
-        sim: sim,
-        idAgency: idAgency,
-        idUser: idUser,
-        entryPrice: entryPrice,
-        price: price,
-        commissionAgency: commissionAgency,
-        commissionUser: commissionUser,
-        fee: fee,
-        agencySupport: agencySupport,
-        failureCost:failureCost,
-        name:name
-    })
-}
-module.exports = {newCart, editStatus,getAll,updateCart}
+
+module.exports = { newCart, editStatus, getAll }
