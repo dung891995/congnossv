@@ -25,7 +25,8 @@ router.post('/',async function(req,res,next){
       commissionAgency,
       commissionUser,
       data.fee,
-      data.agencySupport
+      data.agencySupport,
+      'giaotructiep'
   )
   res.json(dataCart)
 })

@@ -22,6 +22,7 @@
 
 <body>
   <h1>Công Nợ Simsoviet (Đại Lý Giao)</h1>
+  <form action="/cart" method="post">
   <table>
     <tr>
       <td><label for="">Đại Lý</label></td>
@@ -33,7 +34,7 @@
         <% } %>  
         </select> -->
         <div class="ui-widget">
-          <input class="tags">
+          <input class="tags" name="name">
         </div>
 
       </td>
@@ -68,9 +69,11 @@
     </tr>
     <tr>
       <td><label for="">Chi phi neu that bai</label></td>
-      <td><input type="text" name="" id=""></td>
+      <td><input type="text" name="feeIfFalse" id=""></td>
     </tr>
   </table>
+  <button type="submit">Create Cart</button>
+</form>
 </body>
 
 <script>

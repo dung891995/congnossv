@@ -16,11 +16,11 @@ var cartSchema = new mongoose.Schema({
     fee: Number,
     agencySupport: Number,
     feeIfFalse:Number,
+    typeTrade:String,
     status: {
         type: String,
         default: 'pending'
     }
-
 })
 var CartModel = mongoose.model('cart', cartSchema)
 module.exports = CartModel

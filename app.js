@@ -33,7 +33,9 @@ app.use('/giaotructiep',giaotructiepRouter);
 app.use('/agency', agencyRouter);
 app.use('/cart',cartRouter)
 
-
+app.get('/choosecart',function (req,res,next) {
+  res.render('chooseCart')
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

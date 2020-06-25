@@ -13,6 +13,7 @@ router.get('/', async function (req, res, next) {
 router.get('/login',function(req,res,next){
   res.render('login')
 })
+
 router.post('/signup', function (req, res, next) {
   var name = req.body.name;
   var email = req.body.email;

@@ -10,7 +10,7 @@ function getAll() {
 //     return CartModel.findOne({name:name})
 // }
 
-function newCart(sim, idAgency, idUser, entryPrice, price, commissionAgency, commissionUser, fee, agencySupport, feeIfFalse) {
+function newCart(sim, idAgency, idUser, entryPrice, price, commissionAgency, commissionUser, fee, agencySupport,feeIfFalse,typeTrade) {
 
     return CartModel.create({
         sim: sim,
@@ -22,7 +22,8 @@ function newCart(sim, idAgency, idUser, entryPrice, price, commissionAgency, com
         commissionUser: commissionUser,
         fee: fee,
         agencySupport: agencySupport,
-        feeIfFalse:feeIfFalse
+        feeIfFalse: feeIfFalse,
+        typeTrade:typeTrade
     })
 }
 
