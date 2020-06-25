@@ -36,11 +36,10 @@ function updateIncome(id, income) {
 }
 
 async function updateStatusCard(id) {
-    console.log(1111);
+   
     try {
-        var newCart = await CartModel.findByIdAndUpdate(id, { status: 'success' }).populate('idUser').populate("idAgency")
-        console.log(newCart)
-
+        var newCart = await CartModel.findByIdAndUpdate({_id:id}, { status: 'success' },{new:true}).populate('idUser').populate("idAgency")
+        
         if (newCart.status == 'success') {
 
             if (newCart.typeTrade == "dailygiao") {
@@ -55,14 +54,12 @@ async function updateStatusCard(id) {
             }
 
 
-            var currentIncome = newCart.entryPrice * newCart.idAgency.commissionAgency / 100 +
+            var currentIncome = (newCart.entryPrice * newCart.idAgency.commissionAgency / 100 )+
                 (newCart.price - newCart.entryPrice) - newCart.fee + newCart.agencySupport - newCart.feeIfFalse;
             //user
             var salaryOfUser = newCart.idUser.salary;
             var salaryThisCart = newCart.idUser.commissionUser / 100 * currentIncome;
-
             var newSalaryUser = await UserService.updateSalary(newCart.idUser._id, salaryOfUser + salaryThisCart)
-
             var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryOfUser});
             return {
                 error: false,
