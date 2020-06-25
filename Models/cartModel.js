@@ -11,8 +11,6 @@ var cartSchema = new mongoose.Schema({
     },
     entryPrice:Number,
     price:Number,
-    commissionAgency: Number,
-    commissionUser: Number,
     fee: Number,
     agencySupport: Number,
     feeIfFalse:Number,
@@ -20,6 +18,18 @@ var cartSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'pending'
+    },
+    income:{
+        type:Number,
+        default:0
+    },
+    createAt:{
+        type:String,
+        default:(new Date())
+    },
+    updateAt:{
+        type:String,
+        default:null
     }
 })
 var CartModel = mongoose.model('cart', cartSchema)
