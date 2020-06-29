@@ -96,6 +96,11 @@ router.put('/changestatus/:id', async function (req, res, next) {
     });
 })
 
-
+router.get("/page/:npage", function (req, res, next) {
+    var npage = req.params.npage;
+    CartService.page(npage).then((result) => {
+        res.json(result)
+    })
+})
 
 module.exports = router
