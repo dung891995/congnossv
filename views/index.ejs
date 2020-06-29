@@ -74,11 +74,9 @@
       url: '/agency',
       type: 'GET'
     }).then((result) => {
-      var results= result.map(function(value){
+      var results= result.data.map(function(value){
         return value.name
       })
-      console.log(results);
-      
       $(".tags").autocomplete({
         source: results
       });

@@ -6,7 +6,8 @@ router.get('/',function (req, res, next) {
     AgencyService.getALlAgency().then((result) => {
         res.json({
             error:false,
-            message:"thanh cong"
+            message:"thanh cong",
+            data:result
         })
     }).catch((err) => {
         
