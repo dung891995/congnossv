@@ -14,8 +14,6 @@ router.get('/', function (req, res, next) {
 })
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
-
-
     //add cart
     if (isNaN(req.body.entryPrice) || isNaN(req.body.price) || isNaN(req.body.fee) || isNaN(req.body.agencySupport) || isNaN(req.body.feeIfFalse)) {
         res.json({
@@ -60,7 +58,8 @@ router.put('/changestatus/:id', async function (req, res, next) {
             var debitThisCart = newCart.entryPrice * newCart.idAgency.commissionAgency / 100;
             var debitOfAgency = newCart.idAgency.debit
             var newDebit = await AgencyService.updateDebit(newCart.idAgency._id, debitThisCart + debitOfAgency)
-
+                console.log(newDebit);
+                
             var currentIncome = newCart.entryPrice * newCart.idAgency.commissionAgency / 100 +
                 (newCart.price - newCart.entryPrice) - newCart.fee + newCart.agencySupport - newCart.feeIfFalse;
             //user
@@ -68,9 +67,11 @@ router.put('/changestatus/:id', async function (req, res, next) {
             var salaryThisCart = newCart.idUser.commissionUser / 100 * currentIncome;
 
             var newSalaryUser = await UserModel.findByIdAndUpdate(newCart.idUser._id, { salary: salaryOfUser + salaryThisCart })
-
+                console.log(newSalaryUser);
+                
             var newIncome = await CartService.updateIncome(req.params.id, currentIncome - salaryOfUser);
-
+                console.log(newIncome);
+                
             res.json({
                 error: false,
                 message: "thanh  cong"
