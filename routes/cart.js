@@ -51,7 +51,7 @@ router.post('/', async function (req, res, next) {
 })
 
 //giao truc tiep
-router.post('/', async function (req, res, next) {
+router.post('/giaotructiep', async function (req, res, next) {
 
 
     //add cart
@@ -80,7 +80,7 @@ router.post('/', async function (req, res, next) {
             req.body.fee,
             req.body.agencySupport,
             req.body.feeIfFalse,
-            'dailygiao'
+            'giaotructiep'
         )
         res.json(dataCart)
     }
@@ -89,13 +89,13 @@ router.post('/', async function (req, res, next) {
 
 router.put('/changestatus/:id', async function (req, res, next) {
 
-    CartService.updateStatusCard(req.params.id).then((result) => {
+    CartService.updateStatusCart(req.params.id).then((result) => {
         res.json(result)
     }).catch((err) => {
-        
+
     });
-
-
 })
+
+
 
 module.exports = router

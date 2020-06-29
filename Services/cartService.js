@@ -35,7 +35,7 @@ function updateIncome(id, income) {
     return CartModel.findByIdAndUpdate(id, { income: income }, { new: true })
 }
 
-async function updateStatusCard(id) {
+async function updateStatusCart(id) {
    
     try {
         var newCart = await CartModel.findByIdAndUpdate({_id:id}, { status: 'success' },{new:true}).populate('idUser').populate("idAgency")
@@ -74,4 +74,8 @@ async function updateStatusCard(id) {
     }
 
 }
-module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCard }
+
+function page(npage) {
+    return UserModel.find().skip((npage - 1) * 3).limit(3)
+}
+module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page}
