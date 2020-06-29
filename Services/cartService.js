@@ -89,3 +89,5 @@ function page(npage) {
     return UserModel.find().skip((npage - 1) * 3).limit(3)
 }
 module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page}
+
+

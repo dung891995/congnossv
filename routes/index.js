@@ -16,6 +16,7 @@ router.get('/login', function (req, res, next) {
 router.get('/showagency',function (req,res,next) {
   res.render('homeUser')
 })
+
 router.post('/signup', function (req, res, next) {
   var name = req.body.name;
   var email = req.body.email;
@@ -29,7 +30,6 @@ router.post('/signup', function (req, res, next) {
   }).then((result) => {
     res.json(result)
   }).catch((err) => {
-
   });
 })
 
