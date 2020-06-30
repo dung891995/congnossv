@@ -5,10 +5,12 @@ var UserModel = require('../Models/userModel')
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const UserService = require('../Services/userService');
-
+const {authToken} =require('../middleware/userAuth');
 router.get('/', function (req, res, next) {
     CartService.getAll().populate("idAgency").populate('idUser').then((result) => {
-        res.json(result)
+        // console.log(result[0]);
+        console.log(result[7].createdAt.toLocaleString());
+        res.json(result[7].createdAt.toLocaleString())
     }).catch((err) => {
 
     });
@@ -16,8 +18,7 @@ router.get('/', function (req, res, next) {
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
 
-
-    //add cart
+    //check type cua du lieu
     if (isNaN(req.body.entryPrice) || isNaN(req.body.price) || isNaN(req.body.fee) || isNaN(req.body.agencySupport) || isNaN(req.body.feeIfFalse)) {
         res.json({
             error: true,
@@ -30,8 +31,8 @@ router.post('/', async function (req, res, next) {
         console.log(idUser);
         // get dataUser from idUser
         let dataUser = await UserModel.findById(idUser.id);
-        //get idAgency from nameAgency
 
+        //get idAgency from nameAgency
         let dataAgency = await AgencyService.findbyName(req.body.name);
         console.log(dataAgency);
         let dataCart = await CartService.newCart(
@@ -96,7 +97,7 @@ router.put('/changestatus/:id', async function (req, res, next) {
     });
 })
 
-router.get("/page/:npage", function (req, res, next) {
+router.get("/:npage", function (req, res, next) {
     var npage = req.params.npage;
     CartService.page(npage).then((result) => {
         res.json(result)

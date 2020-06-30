@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const UserModel = require('../Models/userModel');
 const agencyService = require('../Services/agencyService');
+const cartService = require('../Services/cartService')
 var jwt = require('jsonwebtoken');
 /* GET home page. */
 router.get('/', async function (req, res, next) {
@@ -13,8 +14,10 @@ router.get('/', async function (req, res, next) {
 router.get('/login', function (req, res, next) {
   res.render('login')
 })
-router.get('/showagency',function (req,res,next) {
-  res.render('homeUser')
+
+router.get('/showagency',async function (req,res,next) {
+  var getAllCart = await cartService.getAll().populate("idAgency");
+  res.render('homeUser',{ getAllCart:getAllCart })
 })
 
 router.post('/signup', function (req, res, next) {
