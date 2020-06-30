@@ -8,8 +8,8 @@ module.exports = {
           if (jwtDecode && jwtDecode.role == 'admin') {
             return res.next();
           }
-          return res.json('ban ko phai admin')
+          return res.json('Bạn không phải admin')
         }
-        return res.json('ban chua dang nhap')
+        return res.json('Bạn chưa đăng nhập')
     }
 }
