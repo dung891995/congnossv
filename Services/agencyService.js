@@ -21,9 +21,16 @@ function editAgency(_id, name, commissionAgency) {
         commissionAgency: commissionAgency
     })
 }
+function updateDebit(id,debit){
+    return AgencyModel.findByIdAndUpdate(id,{debit:debit})
+}
+function updateCredit(id,credit){
+    return AgencyModel.findByIdAndUpdate(id,{credit:credit})
+}
 function deleteAgency(id) {
     return AgencyModel.deleteOne({_id:id})
 }
 module.exports = {
-    addAgency, getALlAgency, editAgency, deleteAgency,findbyName
+
+addAgency, getALlAgency, editAgency, deleteAgency,findbyName,updateDebit,updateCredit
 }
