@@ -18,6 +18,7 @@ router.get('/showagency',async function (req,res,next) {
   var getAllCart = await cartService.getAll().populate("idAgency");
   res.render('homeUser',{ getAllCart:getAllCart })
 })
+
 router.post('/signup', function (req, res, next) {
   var name = req.body.name;
   var email = req.body.email;
@@ -31,7 +32,6 @@ router.post('/signup', function (req, res, next) {
   }).then((result) => {
     res.json(result)
   }).catch((err) => {
-
   });
 })
 

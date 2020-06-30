@@ -13,7 +13,6 @@ router.get('/',function (req, res, next) {
         
     });
 })
-
 router.post('/', function (req, res, next) {
     var name = req.body.name;
     var commissionAgency = req.body.commissionAgency
@@ -33,7 +32,6 @@ router.put('/:_id', function (req, res, next) {
     });
 
 })
-
 router.delete('/:id',function (req, res, next) {
     var id = req.params.id;
     AgencyService.deleteAgency(id).then((result) => {
