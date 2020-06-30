@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const UserModel = require('../Models/userModel');
 const agencyService = require('../Services/agencyService');
-var cartService = require("../Services/cartService")
+const cartService = require('../Services/cartService')
 var jwt = require('jsonwebtoken');
 /* GET home page. */
 router.get('/', async function (req, res, next) {

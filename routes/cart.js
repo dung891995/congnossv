@@ -5,17 +5,20 @@ var UserModel = require('../Models/userModel')
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const UserService = require('../Services/userService');
-
+const {authToken} =require('../Middleware/userAuth');
 router.get('/', function (req, res, next) {
     CartService.getAll().populate("idAgency").populate('idUser').then((result) => {
-        res.json(result)
+        // console.log(result[0]);
+        console.log(result[7].createdAt.toLocaleString());
+        res.json(result[7].createdAt.toLocaleString())
     }).catch((err) => {
 
     });
 })
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
-    //add cart
+
+    //check type cua du lieu
     if (isNaN(req.body.entryPrice) || isNaN(req.body.price) || isNaN(req.body.fee) || isNaN(req.body.agencySupport) || isNaN(req.body.feeIfFalse)) {
         res.json({
             error: true,
@@ -28,8 +31,8 @@ router.post('/', async function (req, res, next) {
         console.log(idUser);
         // get dataUser from idUser
         let dataUser = await UserModel.findById(idUser.id);
-        //get idAgency from nameAgency
 
+        //get idAgency from nameAgency
         let dataAgency = await AgencyService.findbyName(req.body.name);
         console.log(dataAgency);
         let dataCart = await CartService.newCart(
@@ -67,36 +70,6 @@ router.post('/giaotructiep', async function (req, res, next) {
         let dataUser = await UserModel.findById(idUser.id);
         //get idAgency from nameAgency
 
-    try {
-        var newCart = await CartService.editStatus(req.params.id).populate('idUser').populate("idAgency")
-        // console.log(newCart)
-
-        if (newCart.status == 'success') {
-            //agency
-            var debitThisCart = newCart.entryPrice * newCart.idAgency.commissionAgency / 100;
-            var debitOfAgency = newCart.idAgency.debit
-            var newDebit = await AgencyService.updateDebit(newCart.idAgency._id, debitThisCart + debitOfAgency)
-                console.log(newDebit);
-                
-            var currentIncome = newCart.entryPrice * newCart.idAgency.commissionAgency / 100 +
-                (newCart.price - newCart.entryPrice) - newCart.fee + newCart.agencySupport - newCart.feeIfFalse;
-            //user
-            var salaryOfUser = newCart.idUser.salary;
-            var salaryThisCart = newCart.idUser.commissionUser / 100 * currentIncome;
-
-            var newSalaryUser = await UserModel.findByIdAndUpdate(newCart.idUser._id, { salary: salaryOfUser + salaryThisCart })
-                console.log(newSalaryUser);
-                
-            var newIncome = await CartService.updateIncome(req.params.id, currentIncome - salaryOfUser);
-                console.log(newIncome);
-                
-            res.json({
-                error: false,
-                message: "thanh  cong"
-            })
-        }
-    } catch (error) {
-        res.json(error);
         let dataAgency = await AgencyService.findbyName(req.body.name);
         console.log(dataAgency);
         let dataCart = await CartService.newCart(
@@ -112,8 +85,9 @@ router.post('/giaotructiep', async function (req, res, next) {
         )
         res.json(dataCart)
     }
-    }
+
 })
+
 router.put('/changestatus/:id', async function (req, res, next) {
 
     CartService.updateStatusCart(req.params.id).then((result) => {
@@ -123,7 +97,7 @@ router.put('/changestatus/:id', async function (req, res, next) {
     });
 })
 
-router.get("/page/:npage", function (req, res, next) {
+router.get("/:npage", function (req, res, next) {
     var npage = req.params.npage;
     CartService.page(npage).then((result) => {
         res.json(result)

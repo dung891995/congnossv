@@ -86,23 +86,9 @@ async function updateStatusCart(id) {
 }
 
 function page(npage) {
-    return UserModel.find().skip((npage - 1) * 3).limit(3)
+    return CartModel.find().skip((npage - 1) * 3).limit(3)
 }
 module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page}
 
 
-function updatecart(sim, idAgency, idUser, entryPrice, price, commissionAgency, commissionUser, fee, agencySupport, feeIfFalse){
-    return CartModel.updateOne({
-        sim: sim,
-        idAgency: idAgency,
-        idUser: idUser,
-        entryPrice: entryPrice,
-        price: price,
-        commissionAgency: commissionAgency,
-        commissionUser: commissionUser,
-        fee: fee,
-        agencySupport: agencySupport,
-        feeIfFalse:feeIfFalse
-    })
-}
-module.exports = {newCart, editStatus,getAll,updatecart}
+
