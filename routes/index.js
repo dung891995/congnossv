@@ -15,7 +15,8 @@ router.get('/login', function (req, res, next) {
   res.render('login')
 })
 router.get('/showagency',async function (req,res,next) {
-  var getAllCart = await cartService.getAll().populate("idAgency");
+  var getAllCart = await cartService.getCartofUser().populate("idAgency");
+  console.log(getAllCart);
   res.render('homeUser',{ getAllCart:getAllCart })
 })
 

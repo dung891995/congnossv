@@ -5,7 +5,8 @@ var UserModel = require('../Models/userModel')
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 const UserService = require('../Services/userService');
-const {authToken} =require('../Middleware/userAuth');
+const { authToken } = require('../Middleware/userAuth');
+const cartService = require('../Services/cartService');
 router.get('/', function (req, res, next) {
     CartService.getAll().populate("idAgency").populate('idUser').then((result) => {
         // console.log(result[0]);
@@ -13,6 +14,16 @@ router.get('/', function (req, res, next) {
         res.json(result[7].createdAt.toLocaleString())
     }).catch((err) => {
 
+    });
+})
+router.get('/getcartofuser', function (req, res, next) {
+    var token = req.cookies.token;
+    var idUser = jwt.verify(token, 'dung891995');
+    console.log(idUser);
+    cartService.getCartofUser(idUser.id).then((result) => {
+        res.json(result)
+    }).catch((err) => {
+        console.log(err);
     });
 })
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport

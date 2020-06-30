@@ -7,6 +7,9 @@ function getAll() {
     return CartModel.find()
 
 }
+function getCartofUser(id) {
+    return CartModel.find({idUser:id})
+}
 
 // function getIdByName(name) {
 //     return CartModel.findOne({name:name})
@@ -88,7 +91,7 @@ async function updateStatusCart(id) {
 function page(npage) {
     return CartModel.find().skip((npage - 1) * 3).limit(3)
 }
-module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page}
+module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page,getCartofUser}
 
 
 
