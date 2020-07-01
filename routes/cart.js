@@ -2,15 +2,18 @@ var express = require('express');
 var CartService = require('../Services/cartService');
 var AgencyService = require('../Services/agencyService');
 var UserModel = require('../Models/userModel')
-var router = express.Router();
+var router = express.Router();  
 var jwt = require('jsonwebtoken');
 const UserService = require('../Services/userService');
 const {authToken} =require('../Middleware/userAuth');
-router.get('/', function (req, res, next) {
-    CartService.getAll().populate("idAgency").populate('idUser').then((result) => {
+router.get('/', function (req, res, next) { 
+    let textSearch=req.query.textSearch
+    CartService.getAll({'sim':{ '$regex': `${textSearch}`}}).then((result) => {
+ 
+        res.json(result); 
         // console.log(result[0]);
-        console.log(result[7].createdAt.toLocaleString());
-        res.json(result[7].createdAt.toLocaleString())
+        // console.log(result[7].createdAt.toLocaleString());
+        // res.json(result[7].createdAt.toLocaleString())
     }).catch((err) => {
 
     });
@@ -28,13 +31,13 @@ router.post('/', async function (req, res, next) {
         //get idUser from token
         var token = req.cookies.token;
         var idUser = jwt.verify(token, 'dung891995');
-        console.log(idUser);
+        console.log('idUser',idUser);
         // get dataUser from idUser
         let dataUser = await UserModel.findById(idUser.id);
 
         //get idAgency from nameAgency
         let dataAgency = await AgencyService.findbyName(req.body.name);
-        console.log(dataAgency);
+        console.log('dataAgency',dataAgency);
         let dataCart = await CartService.newCart(
             req.body.sim,
             dataAgency._id,

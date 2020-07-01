@@ -20,7 +20,7 @@
     }
     .seach{
         right: 0;
-        position: absolute;
+        /* position: absolute; */
     }
     .header{
         width: 100%;
@@ -29,8 +29,9 @@
         left: 100px;
     }
     .container{
-        position: absolute;
-        top : 100px
+        position: relative;
+        top : 100px;
+        text-align: center;
     }
     .headerr{
         width: 100%;
@@ -42,6 +43,10 @@
 </head>
 <body>
     <form action="/cart" method="POST">
+      <div class="seach">
+        search <input class="text-search" type="text" />
+<button type="button" class="btnSearch">Search</button>
+    </div>
     <div>
         <div class="header">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Giao trực tiếp</button>
@@ -93,10 +98,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="seach">
-    search
-    <input type="text">
 </div>
 </div>
                               <!-- nut 2 -->
@@ -256,12 +257,12 @@ function nosuccess(id){
   $(this).parent().prev().removeClass("d-none")
   $(this).parent().prev().removeClass("d-none")
   $(this).parent().prev().find(".cart-status-no-success").removeClass("d-none")
-  // $.ajax({
-  //   url: "/cart/changestatus/" +id,
-  //   type: "PUT",
-  // }).then((data)=>{
-  //   console.log("k thanh cong");
-  // })
+  $.ajax({
+    url: "/cart/changestatus/" +id,
+    type: "PUT",
+  }).then((data)=>{
+    console.log("k thanh cong");
+  })
 
                 //nut thanh cong
 }
@@ -270,65 +271,33 @@ function success(id){
   $(this).parent().prev().removeClass("d-none")
   $(this).parent().prev().removeClass("d-none")
   $(this).parent().prev().find(".cart-status-success").removeClass("d-none")
-  // $.ajax({
-  //   url: "/cart/changestatus/" +id,
-  //   type: "PUT",
-  // }).then((data)=>{
-  //   console.log(data);
-  // })
+  $.ajax({
+    url: "/cart/changestatus/" +id,
+    type: "PUT",
+  }).then((data)=>{
+    console.log(data);
+  })
 }
-    $.ajax({
-      url: '/agency',
-      type: 'GET'
-    }).then((result) => {
-      var results= result.map(function(value){
-        return value.idAgency.name
-      });
-      $(".agency").autocomplete({
-        source: results
-      });
-    }).catch((err) => {
-      console.log(err);
+
+                    //tim kiem theo sso sim
+
+$.ajax({
+    url: '/cart',
+    type: 'GET'
+  }).then((result) => {
+    var results = result.data.map(function (value) {
+      return value.sim
     });
-
-
-
-    $("#addnew").click(function(data){
-        var name=$(".name").val();
-        var sim=$(".sim").val();
-        var entryPrice=$(".entryPrice").val();
-        var price=$(".price").val();
-        var fee=$(".fee").val();
-        var agencySupport=$(".agencySupport").val();
-        var feeIfFalse=$(".feeIfFalse").val();
-        $.ajax({
-                url: "/cart",
-                type: "post",
-                data: {
-                       name:name,
-                       sim:sim,
-                       entryPrice:entryPrice,
-                       price:price,
-                       fee:fee,
-                       agencySupport:agencySupport,
-                       feeIfFalse:feeIfFalse
-                      }
-              }).then(function(data){
-                    if(data.error){
-                    alert(data)
-                  }else{
-                        alert("thanhcong");
-                        window.location.href = "/showagency"
-                       }
-                     });
-                    });
-
-
-                    
-                    // page==================appen data
-
-
-
-
-
+    $(".seach").autocomplete({
+      source: results
+    });
+  }).catch((err) => {
+    console.log(err);
+  });                   
+$('.btnSearch').click(function(){
+  console.log('aaaaa');
+  
+let text= $('.text-search').val()
+ console.log('text',text);
+})
 </script>

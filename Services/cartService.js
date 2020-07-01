@@ -34,23 +34,6 @@ function editStatus(id) {
 function updateIncome(id, income) {
     return CartModel.findByIdAndUpdate(id, { income: income }, { new: true })
 }
-<<<<<<< HEAD
-function updatecart(sim, idAgency, idUser, entryPrice, price, commissionAgency, commissionUser, fee, agencySupport, feeIfFalse){
-    return CartModel.updateOne({
-        sim: sim,
-        idAgency: idAgency,
-        idUser: idUser,
-        entryPrice: entryPrice,
-        price: price,
-        commissionAgency: commissionAgency,
-        commissionUser: commissionUser,
-        fee: fee,
-        agencySupport: agencySupport,
-        feeIfFalse:feeIfFalse
-    })
-}
-module.exports = {newCart, editStatus,getAll,updatecart}
-=======
 
 async function updateStatusCart(id) {
    
@@ -109,4 +92,3 @@ module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,
 
 
 
->>>>>>> b7426ebc64248311e1f70c0e135d755fd9b2185f
