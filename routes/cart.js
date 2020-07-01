@@ -26,6 +26,15 @@ router.get('/getcartofuser', function (req, res, next) {
         console.log(err);
     });
 })
+
+router.post('/getcartbysim', function (req, res, next) {
+    var sim = req.body.sim;
+    cartService.getCartBySim(sim).populate("idAgency").populate('idUser').then((result) => {
+        return res.json(result)
+    }).catch((err) => {
+      return  res.json(err)
+    });
+})
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
 
