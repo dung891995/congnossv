@@ -14,6 +14,9 @@ function getCartofUser(id) {
 // function getIdByName(name) {
 //     return CartModel.findOne({name:name})
 // }
+function getCartBySim(sim) {
+    return CartModel.findOne({sim:sim})
+}
 
 function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade) {
 
@@ -91,7 +94,7 @@ async function updateStatusCart(id) {
 function page(npage) {
     return CartModel.find().skip((npage - 1) * 3).limit(3)
 }
-module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page,getCartofUser}
+module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page,getCartofUser,getCartBySim}
 
 
 

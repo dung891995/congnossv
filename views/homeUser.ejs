@@ -25,7 +25,8 @@
 
     .seach {
       right: 0;
-      position: absolute;
+      /* position: absolute; */
+      margin-right: 0px;
     }
 
     .header {
@@ -36,8 +37,9 @@
     }
 
     .container {
-      position: absolute;
-      top: 100px
+      position: relative;
+      top: 100px;
+      text-align: center;
     }
 
     .headerr {
@@ -51,6 +53,10 @@
 
 <body>
   <form action="/cart" method="POST">
+    <div class="seach">
+      <input class="text-search" type="text" />
+      <button type="button" class="btnSearch">Search</button>
+    </div>
     <div>
       <div class="header">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -105,12 +111,12 @@
           </div>
         </div>
       </div>
-      <div class="seach">
-        search
-        <input type="text">
-      </div>
+    </div>
+    </div>
+    </div>
     </div>
     <!-- nut 2 -->
+
     <div>
       <div class="headerr">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -148,70 +154,93 @@
                   <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
                   <input type="text" class="form-control fee" id="recipient-name" name="fee">
                 </div>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Đại lí hỗ trợ:</label>
-                  <input type="text" class="form-control agencySupport" id="recipient-name" name="agencySupport">
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group ui-widget">
+                      <label for="recipient-name" class="col-form-label">Đại lí:</label>
+                      <input type="text" class="form-control agency name" id="tags" name="name">
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Số Sim:</label>
+                      <input type="text" class="form-control sim" id="recipient-name" name="sim">
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Giá Nhập:</label>
+                      <input type="text" class="form-control entryPrice" id="recipient-name" name="entryPrice">
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Giá Bán:</label>
+                      <input type="text" class="form-control price" id="recipient-name" name="price">
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
+                      <input type="text" class="form-control fee" id="recipient-name" name="fee">
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Đại lí hỗ trợ:</label>
+                      <input type="text" class="form-control agencySupport" id="recipient-name" name="agencySupport">
+                    </div>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">chi phi nếu thất bại:</label>
+                      <input type="text" class="form-control feeIfFalse" id="recipient-name" name="feeIfFalse">
+                    </div>
+                  </form>
                 </div>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">chi phi nếu thất bại:</label>
-                  <input type="text" class="form-control feeIfFalse" id="recipient-name" name="feeIfFalse">
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="addnew">Add New</button>
                 </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="addnew">Add New</button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    </from>
-    <div class="container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">STT Đơn hàng</th>
-            <th scope="col">Thời gian</th>
-            <th scope="col">Đại Lý</th>
-            <th scope="col">Số Sim</th>
-            <th scope="col">Giá Nhập</th>
-            <th scope="col">Giá Bán</th>
-            <th scope="col">Phí giao hàng</th>
-            <th scope="col">Đại lý hỗ trợ</th>
-            <th scope="col">Chi phí nếu thất bại</th>
-            <th scope="col">Trạng thái</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for(var i = 0;i< getAllCart.length;i++){ %>
-          <tr>
-            <th scope="row"> <%= i +1 %> </th>
-            <td> <%= getAllCart[i].createdAt.toLocaleString() %> </td>
-            <td> <%= getAllCart[i].idAgency.name %> </td>
-            <td> <%= getAllCart[i].sim %> </td>
-            <td> <%= getAllCart[i].entryPrice %> </td>
-            <td> <%= getAllCart[i].price %> </td>
-            <td> <%= getAllCart[i].fee %> </td>
-            <td> <%= getAllCart[i].agencySupport %> </td>
-            <td> <%= getAllCart[i].feeIfFalse %> </td>
-            <td class="d-none">
-              <i class="fas fa-check-circle d-none cart-status-success" style="background-color: white; color: green;"></i>
-              <i class="fas fa-times-circle d-none cart-status-no-success" style="background-color: white; color: red;">
-              </i>
-            </td>
-            <td>
-              <!--video context -->
-              <button class="btn btn-primary btn-sm" type="button"
-                onClick=nosuccess.call(this,"<%= getAllCart[i]._id %>")>không thành công</button>
-              <button class="btn btn-primary btn-sm" type="button"
-                onClick=success.call(this,"<%= getAllCart[i]._id %>")>thành công</button>
-            </td>
-          </tr>
-          <% } %>
-        </tbody>
-      </table>
-    </div>
+      </from>
+      <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">STT Đơn hàng</th>
+              <th scope="col">Thời gian</th>
+              <th scope="col">Đại Lý</th>
+              <th scope="col">Số Sim</th>
+              <th scope="col">Giá Nhập</th>
+              <th scope="col">Giá Bán</th>
+              <th scope="col">Phí giao hàng</th>
+              <th scope="col">Đại lý hỗ trợ</th>
+              <th scope="col">Chi phí nếu thất bại</th>
+              <th scope="col">Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i = 0;i< getAllCart.length;i++){ %>
+            <tr>
+              <th scope="row"> <%= i +1 %> </th>
+              <td> <%= getAllCart[i].createdAt.toLocaleString() %> </td>
+              <td> <%= getAllCart[i].idAgency.name %> </td>
+              <td> <%= getAllCart[i].sim %> </td>
+              <td> <%= getAllCart[i].entryPrice %> </td>
+              <td> <%= getAllCart[i].price %> </td>
+              <td> <%= getAllCart[i].fee %> </td>
+              <td> <%= getAllCart[i].agencySupport %> </td>
+              <td> <%= getAllCart[i].feeIfFalse %> </td>
+              <td class="d-none">
+                <i class="fas fa-check-circle d-none cart-status-success"
+                  style="background-color: white; color: green;"></i>
+                <i class="fas fa-times-circle d-none cart-status-no-success"
+                  style="background-color: white; color: red;"> </i>
+              </td>
+              <td>
+                <!--video context -->
+                <button class="btn btn-primary btn-sm" type="button"
+                  onClick=nosuccess.call(this,"<%= getAllCart[i]._id %>")>không thành công</button>
+                <button class="btn btn-primary btn-sm" type="button"
+                  onClick=success.call(this,"<%= getAllCart[i]._id %>")>thành công</button>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
 
 </body>
 
@@ -295,12 +324,93 @@
     });
   });
 
+  //nit khong thanh cong
 
+  function nosuccess(id) {
+    $(this).parent().addClass("d-none");
+    $(this).parent().prev().removeClass("d-none")
+    $(this).parent().prev().removeClass("d-none")
+    $(this).parent().prev().find(".cart-status-no-success").removeClass("d-none")
+    $.ajax({
+      url: "/cart/changestatus/" + id,
+      type: "PUT",
+    }).then((data) => {
+      console.log("k thanh cong");
+    })
 
-                    // page==================appen data
+    //nut thanh cong
+  }
+  function success(id) {
+    $(this).parent().addClass("d-none");
+    $(this).parent().prev().removeClass("d-none")
+    $(this).parent().prev().removeClass("d-none")
+    $(this).parent().prev().find(".cart-status-success").removeClass("d-none")
+    $.ajax({
+      url: "/cart/changestatus/" + id,
+      type: "PUT",
+    }).then((data) => {
+      console.log(data);
+    })
+  }
 
+  //tim kiem theo sso sim
 
+  $('.btnSearch').click(function () {
+    $(".table").remove();
+    var sim = $(".text-search").val()
+    $.ajax({
+      url: '/cart/getcartbysim',
+      type: 'POST',
+      data: {
+        sim: sim
+      }
+    }).then((result) => {
+      if (result) {
+        `  <div class="container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">STT Đơn hàng</th>
+              <th scope="col">Thời gian</th>
+              <th scope="col">Đại Lý</th>
+              <th scope="col">Số Sim</th>
+              <th scope="col">Giá Nhập</th>
+              <th scope="col">Giá Bán</th>
+              <th scope="col">Phí giao hàng</th>
+              <th scope="col">Đại lý hỗ trợ</th>
+              <th scope="col">Chi phí nếu thất bại</th>
+              <th scope="col">Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">  1  </th>
+              <td>  result.createdAt.toLocaleString()  </td>
+              <td>  result.idAgency.name  </td>
+              <td>  result.sim  </td>
+              <td>  result.entryPrice  </td>
+              <td>  result.price  </td>
+              <td>  result.fee  </td>
+              <td>  result.agencySupport  </td>
+              <td>  result.feeIfFalse  </td>
+              <td class="d-none">
+                <i class="fas fa-check-circle d-none cart-status-success"
+                  style="background-color: white; color: green;"></i>
+                <i class="fas fa-times-circle d-none cart-status-no-success"
+                  style="background-color: white; color: red;"> </i>
+              </td>
+             
+              
+            </tr>
+          </tbody>
+        </table> 
+        </div>`
+        
+            
+      }
+      consolo.log(result)
+    }).catch((err) => {
 
-
-
+    });
+  })
 </script>
