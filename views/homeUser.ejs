@@ -246,8 +246,6 @@
 
 </html>
 <script>
-
-
   $.ajax({
     url: '/agency',
     type: 'GET'
@@ -263,8 +261,6 @@
   });
 
   //them moi
-
-
   //nit khong thanh cong
 
   function nosuccess(id) {
@@ -356,7 +352,7 @@
   //tim kiem theo sso sim
 
   $('.btnSearch').click(function () {
-    $(".table").remove();
+    $("tbody").remove();
     var sim = $(".text-search").val()
     $.ajax({
       url: '/cart/getcartbysim',
@@ -366,49 +362,31 @@
       }
     }).then((result) => {
       if (result) {
-        `  <div class="container">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">STT Đơn hàng</th>
-              <th scope="col">Thời gian</th>
-              <th scope="col">Đại Lý</th>
-              <th scope="col">Số Sim</th>
-              <th scope="col">Giá Nhập</th>
-              <th scope="col">Giá Bán</th>
-              <th scope="col">Phí giao hàng</th>
-              <th scope="col">Đại lý hỗ trợ</th>
-              <th scope="col">Chi phí nếu thất bại</th>
-              <th scope="col">Trạng thái</th>
-            </tr>
-          </thead>
+       var newData = ` 
           <tbody>
             <tr>
               <th scope="row">  1  </th>
-              <td>  result.createdAt.toLocaleString()  </td>
-              <td>  result.idAgency.name  </td>
-              <td>  result.sim  </td>
-              <td>  result.entryPrice  </td>
-              <td>  result.price  </td>
-              <td>  result.fee  </td>
-              <td>  result.agencySupport  </td>
-              <td>  result.feeIfFalse  </td>
+              <td>  ${result.createdAt.toLocaleString()}  </td>
+              <td>  ${result.idAgency.name}  </td>
+              <td>  ${result.sim}  </td>
+              <td>  ${result.entryPrice}  </td>
+              <td>  ${result.price}  </td>
+              <td>  ${result.fee}  </td>
+              <td>  ${result.agencySupport}  </td>
+              <td>  ${result.feeIfFalse}  </td>
               <td class="d-none">
                 <i class="fas fa-check-circle d-none cart-status-success"
                   style="background-color: white; color: green;"></i>
                 <i class="fas fa-times-circle d-none cart-status-no-success"
                   style="background-color: white; color: red;"> </i>
               </td>
-             
-              
             </tr>
           </tbody>
-        </table> 
-        </div>`
+        `
         
-            
+        $('.table').append(newData)      
       }
-      consolo.log(result)
+      console.log(result);
     }).catch((err) => {
 
     });
