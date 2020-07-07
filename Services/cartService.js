@@ -3,16 +3,19 @@ var UserService = require('../Services/userService');
 var AgencyService = require('../Services/agencyService')
 
 
-function getAll() {
+function getAllCart() {
     return CartModel.find()
 
+}
+function getCartofUser(id) {
+    return CartModel.find({idUser:id})
 }
 
 // function getIdByName(name) {
 //     return CartModel.findOne({name:name})
 // }
 
-function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade) {
+function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade,name,user) {
 
     return CartModel.create({
         sim: sim,
@@ -24,6 +27,8 @@ function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, f
         agencySupport: agencySupport,
         feeIfFalse: feeIfFalse,
         typeTrade: typeTrade,
+        name:name,
+        user:user
 
     })
 }
@@ -35,7 +40,7 @@ function updateIncome(id, income) {
     return CartModel.findByIdAndUpdate(id, { income: income }, { new: true })
 }
 
-async function updateStatusCard(id) {
+async function updateStatusCart(id) {
    
     try {
         var newCart = await CartModel.findByIdAndUpdate({_id:id}, { status: 'success' },{new:true}).populate('idUser').populate("idAgency")
@@ -84,4 +89,14 @@ async function updateStatusCard(id) {
     }
 
 }
-module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCard }
+
+function page(npage) {
+    return CartModel.find().skip((npage - 1) * 3).limit(3)
+}
+function pageCart(currentPage,dataPerPage){
+    return CartModel.find().skip((currentPage-1)*dataPerPage).limit(dataPerPage)
+}
+module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart ,page,getCartofUser,pageCart}
+
+
+

@@ -27,7 +27,6 @@ router.get("/page/:currentPage", function (req, res, next) {
   var currentPage = req.params.currentPage;
   var dataPerPage = 4;
   UserService.page(currentPage, dataPerPage).then(function (data) {
-      // var dataPerPage = 5;
       res.json(data)
   })
 })
@@ -51,6 +50,7 @@ router.delete("/:id",function(req,res,next){
   })
 })
 
+ router
 
 
 module.exports = router;

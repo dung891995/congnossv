@@ -2,44 +2,342 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <title>Home User</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="/vendor/fontawesome/js/all.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <title>Home User</title>
+  <style>
+    .ui-widget {
+      z-index: 999999999;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-    <table class="table">
+  <div class="header">
+   <div class="container">
+     <div class="row">
+      <button type="button" class="btn btn-primary col-3"  data-toggle="modal" data-target="#giaoTrucTiepModal"
+            data-whatever="@getbootstrap">Giao trực tiếp</button>
+            <button type="button" class="btn btn-primary col-3" data-toggle="modal" data-target="#exampleModal"
+          data-whatever="@getbootstrap">Đại lí giao</button>
+          <div class="seach col-6 text-right">
+            <input class="text-search" type="text" />
+            <button type="button" class="btnSearch">Search</button>
+          </div>
+     </div>
+   </div>
+  </div>
+
+    <div class="modal fade" id="giaoTrucTiepModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Giao trực tiếp</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group ui-widget">
+                <label for="recipient-name" class="col-form-label">Đại lí:</label>
+                <input type="text" class="form-control agency name" id="tags" name="name">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Số Sim:</label>
+                <input type="text" class="form-control sim" id="recipient-name" name="sim">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Giá Nhập:</label>
+                <input type="text" class="form-control entryPrice" id="recipient-name" name="entryPrice">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Giá Bán:</label>
+                <input type="text" class="form-control price" id="recipient-name" name="price">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
+                <input type="text" class="form-control fee" id="recipient-name" name="fee">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Đại lí hỗ trợ:</label>
+                <input type="text" class="form-control agencySupport" id="recipient-name" name="agencySupport">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">chi phi nếu thất bại:</label>
+                <input type="text" class="form-control feeIfFalse" id="recipient-name" name="feeIfFalse">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="addnew">Add New</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- nut 2 -->
+
+  <div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Đai lí giao</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group ui-widget">
+                <label for="recipient-name" class="col-form-label">Đại lí:</label>
+                <input type="text" class="form-control agency name" id="tags" name="name">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Số Sim:</label>
+                <input type="text" class="form-control sim" id="recipient-name" name="sim">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Giá Nhập:</label>
+                <input type="text" class="form-control entryPrice" id="recipient-name" name="entryPrice">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Giá Bán:</label>
+                <input type="text" class="form-control price" id="recipient-name" name="price">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
+                <input type="text" class="form-control fee" id="recipient-name" name="fee">
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group ui-widget">
+                    <label for="recipient-name" class="col-form-label">Đại lí:</label>
+                    <input type="text" class="form-control agency name" id="tags" name="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Số Sim:</label>
+                    <input type="text" class="form-control sim" id="recipient-name" name="sim">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Giá Nhập:</label>
+                    <input type="text" class="form-control entryPrice" id="recipient-name" name="entryPrice">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Giá Bán:</label>
+                    <input type="text" class="form-control price" id="recipient-name" name="price">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
+                    <input type="text" class="form-control fee" id="recipient-name" name="fee">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Đại lí hỗ trợ:</label>
+                    <input type="text" class="form-control agencySupport" id="recipient-name" name="agencySupport">
+                  </div>
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">chi phi nếu thất bại:</label>
+                    <input type="text" class="form-control feeIfFalse" id="recipient-name" name="feeIfFalse">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="addnew">Add New</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <table class="table">
         <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Thời Gian</th>
-                <th scope="col">Số Sim</th>
-                <th scope="col">Giá Nhập</th>
-                <th scope="col">Giá Bán</th>
-                <th scope="col">Đại Lý</th>
-                <th scope="col">Phí giao hàng</th>
-                <th scope="col">Đại lý hỗ trợ</th>
-            </tr>
+          <tr>
+            <th scope="col">STT Đơn hàng</th>
+            <th scope="col">Thời gian</th>
+            <th scope="col">Đại Lý</th>
+            <th scope="col">Số Sim</th>
+            <th scope="col">Giá Nhập</th>
+            <th scope="col">Giá Bán</th>
+            <th scope="col">Phí giao hàng</th>
+            <th scope="col">Đại lý hỗ trợ</th>
+            <th scope="col">Chi phí nếu thất bại</th>
+            <th scope="col">Trạng thái</th>
+          </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
+          <% for(var i = 0;i< getAllCart.length;i++){ %>
+          <tr>
+            <th scope="row"> <%= i +1 %> </th>
+            <td> <%= getAllCart[i].createdAt.toLocaleString() %> </td>
+            <td> <%= getAllCart[i].idAgency.name %> </td>
+            <td> <%= getAllCart[i].sim %> </td>
+            <td> <%= getAllCart[i].entryPrice %> </td>
+            <td> <%= getAllCart[i].price %> </td>
+            <td> <%= getAllCart[i].fee %> </td>
+            <td> <%= getAllCart[i].agencySupport %> </td>
+            <td> <%= getAllCart[i].feeIfFalse %> </td>
 
+            <!-- thanh cong -->
+
+            <% if(getAllCart[i].status== "success"){ %>
+              <td>
+                <i class="fas fa-check-circle cart-status-success" style="background-color: white; color: green;"></i>
+              </td>
+            <%}%>
+
+                                    <!-- khong thanh cong -->
+
+              <% if(getAllCart[i].status== "fail"){ %>
+            <td>
+              <i class="fas fa-times-circle cart-status-no-success" style="background-color: white; color: red;"></i>
+            </td>
+            <%}%>
+              <td hidden>  
+                <i class="fas fa-check-circle d-none cart-status-success" style="background-color: white; color: green;"></i>
+                <i class="fas fa-times-circle d-none cart-status-no-success" style="background-color: white; color: red;"> </i> 
+              </td> 
+
+              <% if(getAllCart[i].status== "pending"){ %>
+            <td style="width: 50px;">
+              <!--video context -->
+              <button class="btn btn-primary btn-sm" type="button"
+                onClick=nosuccess.call(this,"<%= getAllCart[i]._id %>")>không thành công</button>
+              <button class="btn btn-primary btn-sm" type="button"
+                onClick=success.call(this,"<%= getAllCart[i]._id %>")>thành công</button>
+            </td>
+            <%}%>
             </tr>
-
+          <% } %>
         </tbody>
-    </table>
-</div>
+      </table>
+    </div>
 
 </body>
 
 </html>
+<script>
+
+
+  $.ajax({
+    url: '/agency',
+    type: 'GET'
+  }).then((result) => {
+    var results = result.data.map(function (value) {
+      return value.name
+    });
+    $(".agency").autocomplete({
+      source: results
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  //them moi
+
+
+  //nit khong thanh cong
+
+  function nosuccess(id) {
+    $(this).parent().prev().removeAttr("hidden");
+    $(this).parent().prev().find(".cart-status-no-success").removeClass("d-none");
+    $(this).parent().remove();
+    $.ajax({
+      url: "/cart/buttonfalse/" + id,
+      type: "PUT",
+    }).then((data) => {
+      if (data.error) {
+
+      }
+    })
+
+    //nut thanh cong
+  }
+  function success(id) {
+    $(this).parent().prev().removeAttr("hidden");
+    $(this).parent().prev().find(".cart-status-success").removeClass("d-none");
+    $(this).parent().remove();
+
+    $.ajax({
+      url: "/cart/changestatus/" + id,
+      type: "PUT",
+    }).then((data) => {
+      console.log(data);
+      if (!data.error) {
+
+      }
+    })
+  }
+
+  $("#addnew").click(function (data) {
+    var name = $(".name").val();
+    var sim = $(".sim").val();
+    var entryPrice = $(".entryPrice").val();
+    var price = $(".price").val();
+    var fee = $(".fee").val();
+    var agencySupport = $(".agencySupport").val();
+    var feeIfFalse = $(".feeIfFalse").val();
+    $.ajax({
+      url: "/cart",
+      type: "post",
+      data: {
+        name: name,
+        sim: sim,
+        entryPrice: entryPrice,
+        price: price,
+        fee: fee,
+        agencySupport: agencySupport,
+        feeIfFalse: feeIfFalse
+      }
+    }).then(function (data) {
+      if (data.error) {
+        alert(data)
+      } else {
+        alert("thanhcong");
+        // window.location.href = "/showagency"
+      }
+    });
+  });
+
+
+  //tim kiem theo sso sim
+
+  $.ajax({
+    url: '/cart',
+    type: 'GET'
+  }).then((result) => {
+    var results = result.data.map(function (value) {
+      return value.sim
+    });
+    $(".seach").autocomplete({
+      source: results
+    });
+  }).catch((err) => {
+
+  });
+  $('.btnSearch').click(function () {
+
+    let text = $('.text-search').val();
+    console.log(text);
+
+  })
+</script>

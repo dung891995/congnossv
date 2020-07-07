@@ -22,6 +22,10 @@ function updateUser(id,quantity,salary,name,email,password,commissionUser){
 }
 function deleteUser(id){
     return UserModel.deleteOne({_id:id})
+    return UserModel.findByIdAndUpdate(id,{salary:salary},{new:true})
+}
+function updateCommissionUser(id) {
+    
 }
 module.exports={
     updateSalary,

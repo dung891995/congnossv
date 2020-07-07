@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const UserModel = require('../Models/userModel');
 const agencyService = require('../Services/agencyService');
+const cartService = require('../Services/cartService')
 var jwt = require('jsonwebtoken');
-var CartService = require("../Services/cartService");
-const cartService = require('../Services/cartService');
+const DATA_PER_PAGE = 10;
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
@@ -15,21 +15,23 @@ router.get('/', async function (req, res, next) {
 router.get('/login', function (req, res, next) {
   res.render('login')
 })
-router.get('/showagency',function (req,res,next) {
-  res.render('homeUser')
+router.get('/homeuser', async function (req, res, next) {
+  var getAllCart = await cartService.getAllCart().populate("idUser").populate("idAgency");
+  res.render('homeUser', { getAllCart: getAllCart })
 })
-router.get('/home-admin',async function (req,res,next) {
-  
-  var getAllCart = await cartService.getAll();
-  console.log(getAllCart,"aaaaâ");
-  res.render('homeadmin',{getAllCart:getAllCart})
+router.get('/home-admin', async function (req, res, next) {
+  var cart_data = await cartService.getAllCart();
+  var totalPageLink = Math.ceil(cart_data.length / DATA_PER_PAGE);
+  var page_data =await cartService.pageCart(1, DATA_PER_PAGE);
+  res.render('homeadmin', { totalPageLink: totalPageLink, page_data:page_data })
 })
-router.get('/page-user',function (req,res,next) {
+router.get('/page-user', function (req, res, next) {
   res.render('quanliuser')
 })
-router.get('/page-daili',function (req,res,next) {
+router.get('/page-daili', function (req, res, next) {
   res.render('quanlidaili')
 })
+
 router.post('/signup', function (req, res, next) {
   var name = req.body.name;
   var email = req.body.email;
@@ -39,27 +41,35 @@ router.post('/signup', function (req, res, next) {
     name: name,
     email: email,
     password: password,
-    commissionUser:commissionUser
+    commissionUser: commissionUser
   }).then((result) => {
     res.json(result)
   }).catch((err) => {
-
   });
 })
 
-router.post('/login', function (req, res) {
+router.post('/login', function (req, res,next) {
   var data = req.body;
   UserModel.findOne({
     email: data.email,
     password: data.password
+
   }).then((result) => {
+
     if (result) {
-      console.log(result);
-      var token = jwt.sign({ id: result._id, role: result.role}, "dung891995", { expiresIn: '1d' })
-      res.cookie("token", token, { maxAge: 1000 * 3600 * 12 });
-      return res.json('dang nhap thanh cong')
+      var token = jwt.sign({ role:result.role, id:result.id,name:result.name }, 'dung891995');
+      res.cookie("token",token,{maxAge:1000*60*60*24})
+      if (result.role == 'admin') {
+        return res.redirect("/home-admin")
+      } else {
+        return res.redirect("/homeuser")
+      }
+    } else {
+      return res.json({
+        err: true,
+        message: "sai tai khoan or mat khau"
+      })
     }
-    return res.json('sai tk or mk')
   }).catch((err) => {
     res.json('err' + err)
   });

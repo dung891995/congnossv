@@ -63,24 +63,25 @@
                 var template = `
 <div class="card col-3" style="width: 18rem;">
     <div class="card-body">
-    <p>quantity: <input class="input-quantity"  id='quantity-${data[i]._id}' value="${data[i].quantity}" /> 
+    <p>Số giao dịch: <input class="input-quantity"  id='quantity-${data[i]._id}' value="${data[i].quantity}" /> 
         <span id="value-quantity-${data[i]._id}"> ${data[i].quantity} </span> </p>
 
-    <p>salary: <input class="input-salary"  id='salary-${data[i]._id}' value="${data[i].salary}" /> 
+    <p>Lương: <input class="input-salary"  id='salary-${data[i]._id}' value="${data[i].salary}" /> 
         <span id="value-salary-${data[i]._id}"> ${data[i].salary} </span> </p>
 
-    <p>name: <input class="input-name"  id='name-${data[i]._id}' value="${data[i].name}" /> 
+    <p>Tên: <input class="input-name"  id='name-${data[i]._id}' value="${data[i].name}" /> 
         <span id="value-name-${data[i]._id}"> ${data[i].name} </span></p>
 
     <p>email: <input class="input-email"  id='email-${data[i]._id}' value="${data[i].email}" /> 
         <span id="value-email-${data[i]._id}"> ${data[i].email} </span> </p>
 
-    <p>password: <input class="input-password"  id='password-${data[i]._id}' value="${data[i].password}" /> 
+    <p>Mật Khẩu: <input class="input-password"  id='password-${data[i]._id}' value="${data[i].password}" /> 
         <span id="value-password-${data[i]._id}"> ${data[i].password} </span> </p>
 
-    <p>commissionUser: <input class="input-commissionUser"  id='commissionUser-${data[i]._id}' value="${data[i].commissionUser}" /> 
+    <p>Hoa Hồng Nhân Viên: <input class="input-commissionUser"  id='commissionUser-${data[i]._id}' value="${data[i].commissionUser}" /> 
         <span id="value-commissionUser-${data[i]._id}"> ${data[i].commissionUser} </span> </p>
         
+    
     <button class="btn btn-primary edit" id='edit-${data[i]._id}' onClick=edit("${data[i]._id}")>Edit</button>
     <button class="btn btn-warning save" id='save-${data[i]._id}' onClick=save("${data[i]._id}")>Save</button>
     <button class="btn tn-danger delete" id='delete-${data[i]._id}' onClick=deletee("${data[i]._id}")>Delete</button>
@@ -150,7 +151,7 @@
             }
         }).then(function (data) {
             alert("cập nhập thành công")
-            window.location.href = "/page-user"
+            // window.location.href = "/page-user"
         })
     }
     

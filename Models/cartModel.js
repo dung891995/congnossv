@@ -15,6 +15,8 @@ var cartSchema = new mongoose.Schema({
     agencySupport: Number,
     feeIfFalse:Number,
     typeTrade:String,
+    name:String,
+    user:String,
     status: {
         type: String,
         default: 'pending'
@@ -23,14 +25,16 @@ var cartSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
-    createAt:{
-        type:String,
-        default:(new Date())
-    },
-    updateAt:{
-        type:String,
-        default:null
-    }
+    // createAt:{
+    //     type:String,
+    //     default:(new Date())
+    // },
+    // updateAt:{
+    //     type:String,
+    //     default:null
+    // }
+},{
+    timestamps:true
 })
 var CartModel = mongoose.model('cart', cartSchema)
 module.exports = CartModel
