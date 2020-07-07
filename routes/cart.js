@@ -18,6 +18,16 @@ router.get('/', function (req, res, next) {
 
     });
 })
+router.get('/getcartofuser', function (req, res, next) {
+    var token = req.cookies.token;
+    var idUser = jwt.verify(token, 'dung891995');
+    console.log(idUser);
+    cartService.getCartofUser(idUser.id).then((result) => {
+        res.json(result)
+    }).catch((err) => {
+        console.log(err);
+    });
+})
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
 
@@ -92,8 +102,8 @@ router.post('/giaotructiep', async function (req, res, next) {
 })
 
 router.put('/changestatus/:id', async function (req, res, next) {
-
     CartService.updateStatusCart(req.params.id).then((result) => {
+
         res.json(result)
     }).catch((err) => {
 
@@ -106,5 +116,16 @@ router.get("/:npage", function (req, res, next) {
         res.json(result)
     })
 })
+
+
+router.put('/buttonfalse/:id', function (req, res, next) {
+    CartService.buttonFalse(req.params.id).then((result) => {
+        res.json(result)
+    }).catch((err) => {
+
+    });
+})
+
+
 
 module.exports = router

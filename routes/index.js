@@ -14,9 +14,11 @@ router.get('/', async function (req, res, next) {
 router.get('/login', function (req, res, next) {
   res.render('login')
 })
-router.get('/showagency',async function (req,res,next) {
-  var getAllCart = await cartService.getAll().populate("idAgency");
-  res.render('homeUser',{ getAllCart:getAllCart })
+router.get('/homeuser', async function (req, res, next) {
+  var token = req.cookies.token;
+  var idUser = jwt.verify(token, 'dung891995');
+  var getAllCart = await cartService.getCartofUser(idUser.id).populate("idAgency");
+  res.render('homeUser', { getAllCart: getAllCart })
 })
 
 router.post('/signup', function (req, res, next) {
@@ -28,7 +30,7 @@ router.post('/signup', function (req, res, next) {
     name: name,
     email: email,
     password: password,
-    commissionUser:commissionUser
+    commissionUser: commissionUser
   }).then((result) => {
     res.json(result)
   }).catch((err) => {
@@ -44,7 +46,7 @@ router.post('/login', function (req, res) {
     if (result) {
       var token = jwt.sign({ id: result._id }, "dung891995", { expiresIn: '1d' })
       res.cookie("token", token, { maxAge: 1000 * 3600 * 12 });
-      return res.json('dang nhap thanh cong')
+      res.redirect('/homeuser')
     }
     return res.json('sai tk or mk')
   }).catch((err) => {
