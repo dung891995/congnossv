@@ -3,7 +3,7 @@ var UserService = require('../Services/userService');
 var AgencyService = require('../Services/agencyService')
 
 
-function getAll() {
+function getAllCart() {
     return CartModel.find()
 
 }
@@ -15,7 +15,7 @@ function getCartofUser(id) {
 //     return CartModel.findOne({name:name})
 // }
 
-function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade) {
+function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade,name,user) {
 
     return CartModel.create({
         sim: sim,
@@ -27,6 +27,8 @@ function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, f
         agencySupport: agencySupport,
         feeIfFalse: feeIfFalse,
         typeTrade: typeTrade,
+        name:name,
+        user:user
 
     })
 }
@@ -110,7 +112,10 @@ async function buttonFalse(id) {
 function page(npage) {
     return CartModel.find().skip((npage - 1) * 3).limit(3)
 }
-module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page,getCartofUser,buttonFalse}
+function pageCart(currentPage,dataPerPage){
+    return CartModel.find().skip((currentPage-1)*dataPerPage).limit(dataPerPage)
+}
+module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart ,page,getCartofUser,pageCart}
 
 
 

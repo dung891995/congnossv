@@ -6,6 +6,7 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 const UserService = require('../Services/userService');
 const {authToken} =require('../Middleware/userAuth');
+const DATA_PER_PAGE = 10;
 router.get('/', function (req, res, next) { 
     let textSearch=req.query.textSearch
     CartService.getAll({'sim':{ '$regex': `${textSearch}`}}).then((result) => {
@@ -57,7 +58,10 @@ router.post('/', async function (req, res, next) {
             req.body.fee,
             req.body.agencySupport,
             req.body.feeIfFalse,
-            'dailygiao'
+            'Đại Lý Giao',
+            req.body.name,
+            idUser.name
+
         )
         res.json(dataCart)
     }
@@ -94,7 +98,9 @@ router.post('/giaotructiep', async function (req, res, next) {
             req.body.fee,
             req.body.agencySupport,
             req.body.feeIfFalse,
-            'giaotructiep'
+            'Giao Trực Tiếp',
+            req.body.name,
+            
         )
         res.json(dataCart)
     }
@@ -110,11 +116,17 @@ router.put('/changestatus/:id', async function (req, res, next) {
     });
 })
 
-router.get("/:npage", function (req, res, next) {
-    var npage = req.params.npage;
-    CartService.page(npage).then((result) => {
-        res.json(result)
+router.get("/totalPageLinkCart", function (req, res, next) {
+    CartService.getAllCart().then(function (data) {
+        var totalPageLink = Math.ceil(data.length / DATA_PER_PAGE);
+        res.json(totalPageLink)
     })
+  })
+router.get("/page/:currentPage", function (req, res, next) {
+var currentPage = req.params.currentPage;
+CartService.pageCart(currentPage, DATA_PER_PAGE).then(function (data) {
+    res.json(data)
+})
 })
 
 

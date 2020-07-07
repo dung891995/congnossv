@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <style>
+        .demo {
+            width: 200px;
+            height: 50px;
+        }
+
+        .text {
+            padding-left: 200px;
+        }
+
+        .header {
+
+            height: 100%;
+        }
+
+        h1 {
+            color: red;
+            padding-left: 335px;
+            position: absolute;
+        }
+
+        .seach {
+            padding-left: 1000px
+        }
+
+        .seach-input {
+            width: 200px;
+            height: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <H1>SIM SỐ</H1>
+        <div class="seach">
+            <nav class="navbar navbar-light bg-light justify-content-between">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </nav>
+        </div>
+        <div class="text">
+            <a href="http://localhost:3000/page-user"><button type="button" class="btn btn-outline-success demo">Nhân
+                    Viên</button></a>
+            <a href="http://localhost:3000/page-daili"><button type="button" class="btn btn-outline-danger demo">Đại
+                    Lí</button></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Thời Gian</th>
+                    <th scope="col">Số Sim</th>
+                    <th scope="col">Giá Nhập</th>
+                    <th scope="col">Giá Bán</th>
+                    <th scope="col">Đại Lý</th>
+                    <th scope="col">Loại giao dịch</th>
+                    <th scope="col">Phí giao hàng</th>
+                    <th scope="col">Đại lý hỗ trợ</th>
+                    <th scope="col">Trạng Thái</th>
+                    <th scope="col">Nhân Viên</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="cart-data">
+             
+            </tbody>
+
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination list-page-link">
+                <li class="page-item previous"><a class="page-link" href="#">Previous</a></li> 
+                <% for(var i = 1; i <= totalPageLink;i++){ %>
+                    <li class="page-item li-link" val="<%= i %>"><a class="page-link" href="#"> <%= i %> </a></li>
+               <% } %>
+               <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+
+</body>
+<script>
+    function list_link_page() {
+        $.ajax({
+            url: "/cart/totalPageLinkCart",
+            type: "get"
+        }).then(function (data) {
+
+            var previous = `<li class="page-item previous"><a class="page-link" href="#">Previous</a></li> `
+            var next = `<li class="page-item"><a class="page-link" href="#">Next</a></li>`
+            for (var i = 1; i <= data; i++) {
+                var template = `
+                <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
+                `
+                $(".list-page-link").append(template)
+            }
+            $(".list-page-link").prepend(previous)
+            $(".list-page-link").append(next)
+            $(".li-link").click(function () {
+                var index = $(this).attr("val")
+                $('.table').html("")
+                page(index)
+            })
+        })
+    }
+    function page(numberPage) {
+        $.ajax({
+            url: "/cart/page/" + numberPage,
+            type: "get"
+        }).then(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var template = `
+                    <tr>
+                        <th scope="row"> ${i + 1} </th>
+                        <td>${data[i].createdAt.toLocaleString()}</td>
+                        <td>${data[i].sim}</td>
+                        <td>${data[i].entryPrice}</td>
+                        <td>${data[i].price}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].typeTrade}</td>
+                        <td>${data[i].fee}</td>
+                        <td>${data[i].agencySupport}</td>
+                        <td>${data[i].status}</td>
+                        <td>${data[i].user}</td>    
+                    </tr>
+                    `
+                $("#cart-data").append(template);
+            }
+
+        })
+    }
+</script>
+
+</html>

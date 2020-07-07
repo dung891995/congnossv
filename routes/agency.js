@@ -41,5 +41,32 @@ router.delete('/:id',authToken,function (req, res, next) {
         
     });
 })
+router.put("/update/:id",function(req,res,next){
+    var data = req.body
+    AgencyService.updateAgency(
+        req.params.id,
+        data.debit,
+        data.credit,
+        data.name,
+        data.commissionAgency
+    ).then(function(data){
+        res.json(data)
+    })
+})
+router.get("/totalPageLinkAgency", function (req, res, next) {
+    var dataPerPage = 12;
+    AgencyService.getALlAgency().then(function (data) {
+        var totalPageLink = Math.ceil(data.length / dataPerPage);
+        res.json(totalPageLink)
+    })
+  })
+  router.get("/pageAgency/:currentPage", function (req, res, next) {
+    var currentPage = req.params.currentPage;
+    var dataPerPage = 12;
+    AgencyService.page(currentPage, dataPerPage).then(function (data) {
+        // var dataPerPage = 5;
+        res.json(data)
+    })
+  })
 
 module.exports = router

@@ -30,7 +30,20 @@ function updateCredit(id,credit){
 function deleteAgency(id) {
     return AgencyModel.deleteOne({_id:id})
 }
+function updateAgency(id,debit,credit,name,commissionAgency){
+    return AgencyModel.updateOne({
+        _id:id
+    },{
+        debit:debit,
+        credit:credit,
+        name:name,
+        commissionAgency:commissionAgency
+    })
+}
+function page(currentPage,dataPerPage){
+    return AgencyModel.find().skip((currentPage-1)*dataPerPage).limit(dataPerPage)
+}
 module.exports = {
 
-addAgency, getALlAgency, editAgency, deleteAgency,findbyName,updateDebit,updateCredit
+addAgency, getALlAgency, editAgency, deleteAgency,findbyName,updateDebit,updateCredit,updateAgency,page
 }
