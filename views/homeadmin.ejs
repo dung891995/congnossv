@@ -79,50 +79,88 @@
                     <th scope="col">Loại giao dịch</th>
                     <th scope="col">Phí giao hàng</th>
                     <th scope="col">Đại lý hỗ trợ</th>
-                    <th scope="col">Trạng Thái</th>
                     <th scope="col">Nhân Viên</th>
+                    <th scope="col">Trạng Thái</th>
+
                 </tr>
 
             </thead>
 
             <tbody id="cart-data">
-             
+
+                <% for(var i = 0; i < page_data.length;i++){ %>
+                <tr>
+                    <th scope="row"> <%= i+1  %> </th>
+                    <td><%= page_data[i].createdAt.toLocaleString() %></td>
+                    <td><%= page_data[i].sim %></td>
+                    <td><%= page_data[i].entryPrice %></td>
+                    <td><%= page_data[i].price %></td>
+                    <td><%= page_data[i].name %></td>
+                    <td><%= page_data[i].typeTrade %></td>
+                    <td><%= page_data[i].fee %></td>
+                    <td><%= page_data[i].agencySupport %></td>
+                    <td><%= page_data[i].user %></td>
+                    <td><%= page_data[i].status %></td>
+                </tr>
+                <% } %>
             </tbody>
 
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination list-page-link">
-                <li class="page-item previous"><a class="page-link" href="#">Previous</a></li> 
+                <li class="page-item previous" val="<%=i%>"><a class="page-link" href="#">Previous</a></li>
                 <% for(var i = 1; i <= totalPageLink;i++){ %>
-                    <li class="page-item li-link" val="<%= i %>"><a class="page-link" href="#"> <%= i %> </a></li>
-               <% } %>
-               <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item li-link" val="<%= i %>"><a class="page-link" href="#"> <%= i %> </a></li>
+                <% } %>
+                <li class="page-item next" val="<%=i%>"><a class="page-link" href="#">Next</a></li>
             </ul>
         </nav>
 
 </body>
 <script>
+      $(".next").click(function () {
+        var indexPage = parseInt($(this).attr("val"));
+        var totalPage =parseInt( $(".li-link").last().attr("val"))
+        if(indexPage >= totalPage){
+            $(this).hide();
+            $(this).attr("val",0);
+            page(totalPage);
+            return;
+        }else{
+            $(this).show();
+            $(this).attr("val",indexPage+1);
+            $('#cart-data').html("")
+            page(indexPage+1)
+        }
+    
+    })
+    // $(".previous").click(function () {
+        
+    //     var previous = $(this).attr("val")
+    //     $('#cart-data').html("")
+    //     page(parseInt(indexPage)-1)
+    // })
+   
+    $(".li-link").click(function () {
+         indexPage = parseInt($(this).attr("val"))
+        $('#cart-data').html("")
+        page(indexPage)
+    })
     function list_link_page() {
         $.ajax({
             url: "/cart/totalPageLinkCart",
             type: "get"
         }).then(function (data) {
-
-            var previous = `<li class="page-item previous"><a class="page-link" href="#">Previous</a></li> `
-            var next = `<li class="page-item"><a class="page-link" href="#">Next</a></li>`
             for (var i = 1; i <= data; i++) {
                 var template = `
                 <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
                 `
-                $(".list-page-link").append(template)
+                $(".previous").append(template)
             }
-            $(".list-page-link").prepend(previous)
-            $(".list-page-link").append(next)
-            $(".li-link").click(function () {
-                var index = $(this).attr("val")
-                $('.table').html("")
-                page(index)
-            })
+           
+
+
+            
         })
     }
     function page(numberPage) {

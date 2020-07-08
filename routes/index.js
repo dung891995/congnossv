@@ -23,7 +23,8 @@ router.get('/home-admin', async function (req, res, next) {
   var cart_data = await cartService.getAllCart();
   var totalPageLink = Math.ceil(cart_data.length / DATA_PER_PAGE);
   var page_data =await cartService.pageCart(1, DATA_PER_PAGE);
-  res.render('homeadmin', { totalPageLink: totalPageLink, page_data:page_data })
+  console.log(page_data.length);
+  res.render('homeadmin', { totalPageLink: totalPageLink, page_data:page_data, cart_data:cart_data })
 })
 router.get('/page-user', function (req, res, next) {
   res.render('quanliuser')
