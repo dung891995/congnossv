@@ -76,7 +76,7 @@
 
     <p>Hoa hồng đại lý: <input class="input-commissionAgency"  id='commissionAgency-${data[i]._id}' value="${data[i].commissionAgency}" /> 
         <span id="value-commissionAgency-${data[i]._id}"> ${data[i].commissionAgency} </span> </p>
-    <p>Công nợ: <span id="congno ${data[i]._id}"> </span> </p>   
+    <p>Công nợ: <span id="congno ${data[i]._id}">${data[i].debit - data[i].credit}</span> </p>   
         
 
         
@@ -84,7 +84,7 @@
     <button class="btn btn-warning save" id='save-${data[i]._id}' onClick=save("${data[i]._id}")>Save</button>
     <button class="btn tn-danger delete" id='delete-${data[i]._id}' onClick=deletee("${data[i]._id}")>Delete</button>
     <button class="btn tn-danger home" id='home-${data[i]._id}' onClick=home("${data[i]._id}")>home</button>
-    <button class="btn tn-danger liabilities" id='liabilities-${data[i]._id}' onClick=liabilities("${data[i]._id}")>Công Nợ</button>
+    
     
     </div>
 </div>
@@ -96,11 +96,7 @@
             $(".home").hide();
         })
     }
-    function liabilities(id){
-        var debit = $("#debit-"+id).val()
-        var credit = $("#credit-"+id).val()
-        $("#congno"+id).val(debit-credit).html("")
-    }
+    
     
     function edit(id) {
         $("#debit-" + id).show();
