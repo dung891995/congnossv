@@ -2,7 +2,6 @@ var express = require('express');
 const UserModel = require('../Models/userModel');
 var router = express.Router();
 const UserService = require("../Services/userService");
-const userService = require('../Services/userService');
 var jwt = require('jsonwebtoken');
 
 /* GET users listing. */
@@ -42,6 +41,12 @@ router.put("/:id",function(req,res,next){
     data.commissionUser
   ).then(function(data){
     res.json(data)
+  })
+})
+router.put('/thanhtoan/:id',function(req,res,next){ 
+  UserService.updateSalary(req.params.id,0).then(function(data){
+    res.json(data);
+    
   })
 })
 router.delete("/:id",function(req,res,next){
