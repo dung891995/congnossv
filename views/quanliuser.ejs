@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>   
+</head>
+
+<body>
+    <div class="container">
+        <div class="row content">
+
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination list-page-link">
+        </ul>
+    </nav>
+</body>
+<script>
+    page(1);
+    list_link_page()
+    function list_link_page() {
+        $.ajax({
+            url: "/users/totalPageLink",
+            type: "get"
+        }).then(function (data) {
+            var previous = `<li class="page-item previous"><a class="page-link" href="#">Previous</a></li> `
+            var next = `<li class="page-item"><a class="page-link" href="#">Next</a></li>`
+            for (var i = 1; i <= data; i++) {
+                var template = `
+                <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
+                `
+                $(".list-page-link").append(template)
+            }
+            $(".list-page-link").prepend(previous)
+            $(".list-page-link").append(next)
+            $(".li-link").click(function () {
+                var index = $(this).attr("val")
+                $('.content').html("")
+                page(index)
+            })
+        })
+    }
+    function page(numberPage) {
+        $.ajax({
+            url: "/users/page/" + numberPage,
+            type: "get"
+        }).then(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var template = `
+<div class="card col-3" style="width: 18rem;">
+    <div class="card-body">
+    <p>Số giao dịch: <input class="input-quantity"  id='quantity-${data[i]._id}' value="${data[i].quantity}" /> 
+        <span id="value-quantity-${data[i]._id}"> ${data[i].quantity} </span> </p>
+
+    <p>Lương: <input class="input-salary"  id='salary-${data[i]._id}' value="${data[i].salary}" /> 
+        <span id="value-salary-${data[i]._id}"> ${data[i].salary} </span> </p>
+
+    <p>Tên: <input class="input-name"  id='name-${data[i]._id}' value="${data[i].name}" /> 
+        <span id="value-name-${data[i]._id}"> ${data[i].name} </span></p>
+
+    <p>email: <input class="input-email"  id='email-${data[i]._id}' value="${data[i].email}" /> 
+        <span id="value-email-${data[i]._id}"> ${data[i].email} </span> </p>
+
+    <p>Mật Khẩu: <input class="input-password"  id='password-${data[i]._id}' value="${data[i].password}" /> 
+        <span id="value-password-${data[i]._id}"> ${data[i].password} </span> </p>
+
+    <p>Hoa Hồng Nhân Viên: <input class="input-commissionUser"  id='commissionUser-${data[i]._id}' value="${data[i].commissionUser}" /> 
+        <span id="value-commissionUser-${data[i]._id}"> ${data[i].commissionUser} </span> </p>
+        
+    
+    <button class="btn btn-primary edit" id='edit-${data[i]._id}' onClick=edit("${data[i]._id}")>Edit</button>
+    <button class="btn btn-warning save" id='save-${data[i]._id}' onClick=save("${data[i]._id}")>Save</button>
+    <button class="btn tn-danger delete" id='delete-${data[i]._id}' onClick=deletee("${data[i]._id}")>Delete</button>
+    <button class="btn tn-danger home" id='home-${data[i]._id}' onClick=home("${data[i]._id}")>home</button>
+    <button class="btn tn-danger userPay" id='userPay-${data[i]._id}' onClick=userPay("${data[i]._id}")>thanh toan</button>
+    
+    </div>
+</div>
+`
+                $(".content").append(template);
+            }
+            $(".save").hide();
+            $("input").hide();
+            $(".home").hide();
+        })
+    }
+    function edit(id) {
+        $("#quantity-" + id).show();
+        $("#salary-" + id).show();
+        $("#name-" + id).show();
+        $("#email-" + id).show();
+        $("#password-" + id).show();
+        $("#commissionUser-" + id).show();
+        $("#value-quantity-" + id).hide();
+        $("#value-salary-" + id).hide();
+        $("#value-name-" + id).hide();
+        $("#value-email-" + id).hide();
+        $("#value-password-" + id).hide();
+        $("#value-commissionUser-" + id).hide();
+        $("#edit-" + id).hide();
+        $("#save-" + id).show();
+        $("#delete-" + id).hide();
+        $("#home-" + id).show();
+    }
+    function save(id){
+        $("#quantity-" + id).hide();
+        $("#salary-" + id).hide();
+        $("#name-" + id).hide();
+        $("#email-" + id).hide();
+        $("#password-" + id).hide();
+        $("#commissionUser-" + id).hide();
+        $("#value-quantity-" + id).show();
+        $("#value-salary-" + id).show();
+        $("#value-name-" + id).show();
+        $("#value-email-" + id).show();
+        $("#value-password-" + id).show();
+        $("#value-commissionUser-" + id).show();
+        $("#edit-" + id).show();
+        $("#save-" + id).hide();
+        $("#delete-" + id).show();
+        $("#home-" + id).hide();
+        var quantity = $("#quantity-" + id).val();
+        var salary = $("#salary-" + id).val();
+        var name = $("#name-" + id).val();
+        var email = $("#email-" + id).val();
+        var password = $("#password-" + id).val();
+        var commissionUser = $("#commissionUser-" + id).val();
+        $.ajax({
+            url: "/users/" + id,
+            type: "put",
+            data: {
+                quantity: quantity,
+                salary: salary,
+                name: name,
+                email:email,
+                password:password,
+                commissionUser:commissionUser
+            }
+        }).then(function (data) {
+            alert("cập nhập thành công")
+            // window.location.href = "/page-user"
+        })
+    }
+    
+        function deletee(id) {
+        $.ajax({
+            url: "/users/" + id,
+            type: "delete"
+        }).then(function (data) {
+            alert("xóa tài khoản thành công")
+            window.location.href = "/page-user"
+        })
+    }
+    function home(id){
+        window.location.href = "/page-user"
+    }
+                    //thanh toan cho nv
+    function userPay(id){
+        var salary = $("#salary-" + id).val();
+        $.ajax({
+        url:"/users/thanhtoan/" + id,
+        type:"PUT",
+        data:{salary:salary}
+        }).then(function(data){
+        alert("thanh toan thanh cong");
+        window.location.href = "/page-user"
+    })
+    } 
+</script>
+</html>

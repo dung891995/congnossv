@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row content">
+
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination list-page-link">
+        </ul>
+    </nav>
+</body>
+<script>
+    page(1);
+    list_link_page()
+    function list_link_page() {
+        $.ajax({
+            url: "/agency/totalPageLinkAgency",
+            type: "get"
+        }).then(function (data) {
+            var previous = `<li class="page-item previous"><a class="page-link" href="#">Previous</a></li> `
+            var next = `<li class="page-item"><a class="page-link" href="#">Next</a></li>`
+            for (var i = 1; i <= data; i++) {
+                var template = `
+                <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
+                `
+                $(".list-page-link").append(template)
+            }
+            $(".list-page-link").prepend(previous)
+            $(".list-page-link").append(next)
+            $(".li-link").click(function () {
+                var index = $(this).attr("val")
+                $('.content').html("")
+                page(index)
+            })
+        })
+    }
+    function page(numberPage) {
+        $.ajax({
+            url: "/agency/pageAgency/" + numberPage,
+            type: "get"
+        }).then(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var template = `
+<div class="card col-3" style="width: 18rem;">
+    <div class="card-body">
+    <p>debit: <input class="input-debit"  id='debit-${data[i]._id}' value="${data[i].debit}" /> 
+        <span id="value-debit-${data[i]._id}"> ${data[i].debit} </span> </p>
+
+    <p>credit: <input class="input-credit"  id='credit-${data[i]._id}' value="${data[i].credit}" /> 
+        <span id="value-credit-${data[i]._id}"> ${data[i].credit} </span> </p>
+
+    <p>name: <input class="input-name"  id='name-${data[i]._id}' value="${data[i].name}" /> 
+        <span id="value-name-${data[i]._id}"> ${data[i].name} </span></p>
+
+    <p>commissionAgency: <input class="input-commissionAgency"  id='commissionAgency-${data[i]._id}' value="${data[i].commissionAgency}" /> 
+        <span id="value-commissionAgency-${data[i]._id}"> ${data[i].commissionAgency} </span> </p>
+
+        
+    <button class="btn btn-primary edit" id='edit-${data[i]._id}' onClick=edit("${data[i]._id}")>Edit</button>
+    <button class="btn btn-warning save" id='save-${data[i]._id}' onClick=save("${data[i]._id}")>Save</button>
+    <button class="btn tn-danger delete" id='delete-${data[i]._id}' onClick=deletee("${data[i]._id}")>Delete</button>
+    <button class="btn tn-danger home" id='home-${data[i]._id}' onClick=home("${data[i]._id}")>home</button>
+    
+    </div>
+</div>
+`
+                $(".content").append(template);
+            }
+            $(".save").hide();
+            $("input").hide();
+            $(".home").hide();
+        })
+    }
+    function edit(id) {
+        $("#debit-" + id).show();
+        $("#credit-" + id).show();
+        $("#name-" + id).show();
+        $("#commissionAgency-" + id).show();
+        $("#password-" + id).show();
+        $("#commissionUser-" + id).show();
+        $("#value-debit-" + id).hide();
+        $("#value-credit-" + id).hide();
+        $("#value-name-" + id).hide();
+        $("#value-commissionAgency-" + id).hide();
+        $("#edit-" + id).hide();
+        $("#save-" + id).show();
+        $("#delete-" + id).hide();
+        $("#home-" + id).show();
+    }
+    function save(id){
+        $("#debit-" + id).hide();
+        $("#credit-" + id).hide();
+        $("#name-" + id).hide();
+        $("#commissionAgency-" + id).hide();
+        $("#password-" + id).hide();
+        $("#commissionUser-" + id).hide();
+        $("#value-debit-" + id).show();
+        $("#value-credit-" + id).show();
+        $("#value-name-" + id).show();
+        $("#value-commissionAgency-" + id).show();
+        $("#edit-" + id).show();
+        $("#save-" + id).hide();
+        $("#delete-" + id).show();
+        $("#home-" + id).hide();
+        var debit = $("#debit-" + id).val();
+        var credit = $("#credit-" + id).val();
+        var name = $("#name-" + id).val();
+        var commissionAgency = $("#commissionAgency-" + id).val();
+        $.ajax({
+            url: "/agency/update/" + id,
+            type: "put",
+            data: {
+                debit: debit,
+                credit: credit,
+                name: name,
+                commissionAgency:commissionAgency,
+            }
+        }).then(function (data) {
+            alert("cập nhập thành công")
+            window.location.href = "/page-daili"
+        })
+    }
+    
+        function deletee(id) {
+        $.ajax({
+            url: "/agency/" + id,
+            type: "delete"
+        }).then(function (data) {
+            alert("xóa tài khoản thành công")
+            window.location.href = "/page-daili"
+        })
+    }
+    function home(id){
+        window.location.href = "/page-daili"
+    }
+    
+    
+</script>
+
+</html>

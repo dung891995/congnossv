@@ -4,6 +4,7 @@ const UserModel = require('../Models/userModel');
 const agencyService = require('../Services/agencyService');
 const cartService = require('../Services/cartService')
 var jwt = require('jsonwebtoken');
+const DATA_PER_PAGE = 10;
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
@@ -15,10 +16,20 @@ router.get('/login', function (req, res, next) {
   res.render('login')
 })
 router.get('/homeuser', async function (req, res, next) {
-  var token = req.cookies.token;
-  var idUser = jwt.verify(token, 'dung891995');
-  var getAllCart = await cartService.getCartofUser(idUser.id).populate("idAgency");
+  var getAllCart = await cartService.getAllCart().populate("idUser").populate("idAgency");
   res.render('homeUser', { getAllCart: getAllCart })
+})
+router.get('/home-admin', async function (req, res, next) {
+  var cart_data = await cartService.getAllCart();
+  var totalPageLink = Math.ceil(cart_data.length / DATA_PER_PAGE);
+  var page_data =await cartService.pageCart(1, DATA_PER_PAGE);
+  res.render('homeadmin', { totalPageLink: totalPageLink, page_data:page_data })
+})
+router.get('/page-user', function (req, res, next) {
+  res.render('quanliuser')
+})
+router.get('/page-daili', function (req, res, next) {
+  res.render('quanlidaili')
 })
 
 router.post('/signup', function (req, res, next) {
@@ -37,18 +48,28 @@ router.post('/signup', function (req, res, next) {
   });
 })
 
-router.post('/login', function (req, res) {
+router.post('/login', function (req, res,next) {
   var data = req.body;
   UserModel.findOne({
     email: data.email,
     password: data.password
+
   }).then((result) => {
+
     if (result) {
-      var token = jwt.sign({ id: result._id }, "dung891995", { expiresIn: '1d' })
-      res.cookie("token", token, { maxAge: 1000 * 3600 * 12 });
-      res.redirect('/homeuser')
+      var token = jwt.sign({ role:result.role, id:result.id,name:result.name }, 'dung891995');
+      res.cookie("token",token,{maxAge:1000*60*60*24})
+      if (result.role == 'admin') {
+        return res.redirect("/home-admin")
+      } else {
+        return res.redirect("/homeuser")
+      }
+    } else {
+      return res.json({
+        err: true,
+        message: "sai tai khoan or mat khau"
+      })
     }
-    return res.json('sai tk or mk')
   }).catch((err) => {
     res.json('err' + err)
   });
