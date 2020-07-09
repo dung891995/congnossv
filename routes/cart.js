@@ -32,7 +32,7 @@ router.post('/getcartbysim', function (req, res, next) {
     cartService.getCartBySim(sim).populate("idAgency").populate('idUser').then((result) => {
         return res.json(result)
     }).catch((err) => {
-      return  res.json(err)
+        return res.json(err)
     });
 })
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
@@ -111,6 +111,13 @@ router.post('/giaotructiep', async function (req, res, next) {
 router.put('/changestatus/:id', async function (req, res, next) {
 
     CartService.updateStatusCart(req.params.id).then((result) => {
+        res.json(result)
+    }).catch((err) => {
+
+    });
+})
+router.put('/buttonfalse/:id', function (req, res, next) {
+    cartService.buttonFalse(req.params.id).then((result) => {
         res.json(result)
     }).catch((err) => {
 

@@ -8,14 +8,14 @@ function getAll() {
 
 }
 function getCartofUser(id) {
-    return CartModel.find({idUser:id})
+    return CartModel.find({ idUser: id })
 }
 
 // function getIdByName(name) {
 //     return CartModel.findOne({name:name})
 // }
 function getCartBySim(sim) {
-    return CartModel.findOne({sim:sim})
+    return CartModel.findOne({ sim: sim })
 }
 
 function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade) {
@@ -42,9 +42,9 @@ function updateIncome(id, income) {
 }
 
 async function updateStatusCart(id) {
-   
+
     try {
-        var newCart = await CartModel.findByIdAndUpdate({_id:id}, { status: 'success' },{new:true}).populate('idUser').populate("idAgency")
+        var newCart = await CartModel.findByIdAndUpdate({ _id: id }, { status: 'success' }, { new: true }).populate('idUser').populate("idAgency")
         // console.log(newCart);
         if (newCart.status == 'success') {
 
@@ -66,7 +66,7 @@ async function updateStatusCart(id) {
             }
 
             //tong thu nhap tren don hang
-            var currentIncome = (newCart.entryPrice * newCart.idAgency.commissionAgency / 100 )+
+            var currentIncome = (newCart.entryPrice * newCart.idAgency.commissionAgency / 100) +
                 (newCart.price - newCart.entryPrice) - newCart.fee + newCart.agencySupport - newCart.feeIfFalse;
             //user
             // luong cua nhan vien
@@ -76,7 +76,7 @@ async function updateStatusCart(id) {
             // tong tien luong cua nhan vien hien tai
             var newSalaryUser = await UserService.updateSalary(newCart.idUser._id, salaryOfUser + salaryThisCart)
             //tong thu nhap
-            var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryOfUser});
+            var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryOfUser });
             return {
                 error: false,
                 message: "cap nhat thanh cong"
@@ -91,10 +91,28 @@ async function updateStatusCart(id) {
 
 }
 
+async function buttonFalse(id) {
+    try {
+        var newCart = await CartModel.findByIdAndUpdate({ _id: id }, { status: 'fail' }, { new: true })
+        console.log(newCart);
+        var newIncome = await CartModel.findByIdAndUpdate(id, { income: 0 - newCart.feeIfFalse });
+        console.log(newIncome);
+        return {
+            error: false,
+            message: "update thanh cong"
+        }
+    } catch (error) {
+        return {
+            error: true,
+            message: error
+        }
+    }
+}
+
 function page(npage) {
     return CartModel.find().skip((npage - 1) * 3).limit(3)
 }
-module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart ,page,getCartofUser,getCartBySim}
+module.exports = { newCart, editStatus, getAll, updateIncome, updateStatusCart, page, getCartofUser, getCartBySim,buttonFalse }
 
 
 

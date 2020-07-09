@@ -2,6 +2,10 @@ var express = require('express');
 var AgencyService = require('../Services/agencyService');
 var router = express.Router();
 const {authToken} = require('../Middleware/userAuth');
+var alert = require('alert-node');
+router.get('/addagency',function (req, res, next) {
+    res.render('addagency')
+})
 
 router.get('/',function (req, res, next) {
     AgencyService.getALlAgency().then((result) => {
@@ -15,11 +19,17 @@ router.get('/',function (req, res, next) {
     });
 })
 router.post('/', function (req, res, next) {
-    var name = req.body.name;
-    var commissionAgency = req.body.commissionAgency
+    var dataRequest = req.body;
+    var name = dataRequest.name;
+    var commissionAgency = dataRequest.commissionAgency
     AgencyService.addAgency(name, commissionAgency).then((result) => {
-        res.json(result)
+        res.json({
+            error: false,
+            message:'tao dai ly thanh cong'
+        })
+        
     }).catch((err) => {
+        console.log(err);
     });
 })
 router.put('/:_id',authToken, function (req, res, next) {

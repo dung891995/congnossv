@@ -11,6 +11,11 @@ var agencyRouter=require('./routes/agency')
 var cartRouter = require('./routes/cart')
 
 var app = express();
+const ngrok = require('ngrok');
+(async function() {
+  const url = await ngrok.connect(3000);
+})();
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
  
