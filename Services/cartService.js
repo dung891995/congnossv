@@ -118,7 +118,7 @@ function page(npage) {
 function pageCart(currentPage,dataPerPage){
     return CartModel.find().skip((currentPage-1)*dataPerPage).limit(dataPerPage)
 }
-module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart ,page,getCartofUser,pageCart}
+module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart ,page,getCartofUser,pageCart,getCartBySim}
 
 
 

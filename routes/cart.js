@@ -23,7 +23,7 @@ router.get('/getcartofuser', function (req, res, next) {
     var token = req.cookies.token;
     var idUser = jwt.verify(token, 'dung891995');
     console.log(idUser);
-    cartService.getCartofUser(idUser.id).then((result) => {
+    CartService.getCartofUser(idUser.id).then((result) => {
         res.json(result)
     }).catch((err) => {
         console.log(err);
@@ -32,7 +32,7 @@ router.get('/getcartofuser', function (req, res, next) {
 
 router.post('/getcartbysim', function (req, res, next) {
     var sim = req.body.sim;
-    cartService.getCartBySim(sim).populate("idAgency").populate('idUser').then((result) => {
+    CartService.getCartBySim(sim).populate("idAgency").populate('idUser').then((result) => {
         return res.json(result)
     }).catch((err) => {
         return res.json(err)

@@ -301,23 +301,43 @@
 
   //tim kiem theo sso sim
 
-  $.ajax({
-    url: '/cart',
-    type: 'GET'
-  }).then((result) => {
-    var results = result.data.map(function (value) {
-      return value.sim
-    });
-    $(".seach").autocomplete({
-      source: results
-    });
-  }).catch((err) => {
-
-  });
   $('.btnSearch').click(function () {
-
-    let text = $('.text-search').val();
-    console.log(text);
-
+    $("tbody").remove();
+    var sim = $(".text-search").val()
+    $.ajax({
+      url: '/cart/getcartbysim',
+      type: 'POST',
+      data: {
+        sim: sim
+      }
+    }).then((result) => {
+      if (result) {
+       var newData = ` 
+          <tbody>
+            <tr>
+              <th scope="row">  1  </th>
+              <td>  ${result.createdAt.toLocaleString()}  </td>
+              <td>  ${result.idAgency.name}  </td>
+              <td>  ${result.sim}  </td>
+              <td>  ${result.entryPrice}  </td>
+              <td>  ${result.price}  </td>
+              <td>  ${result.fee}  </td>
+              <td>  ${result.agencySupport}  </td>
+              <td>  ${result.feeIfFalse}  </td>
+              <td class="d-none">
+                <i class="fas fa-check-circle d-none cart-status-success"
+                  style="background-color: white; color: green;"></i>
+                <i class="fas fa-times-circle d-none cart-status-no-success"
+                  style="background-color: white; color: red;"> </i>
+              </td>
+            </tr>
+          </tbody>
+        `
+        
+        $('.table').append(newData)      
+      }
+      console.log(result);
+    }).catch((err) => {
+    });
   })
 </script>
