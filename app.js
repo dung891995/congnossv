@@ -34,41 +34,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get("/xuatFile", async function(req,res,next){
-  var getAll = await cartService.getAll();
-//   var value = new Uint8Array(getAll);
-//   var wb = xlsx.read(value  ,{type:"array",cellDates:true});
-// console.log(wb);
-
-// var ws = wb.Sheets[wb.SheetNames[0]];
-// console.log(ws);
-
-// var data = xlsx.utils.sheet_to_json(ws);
-
-
-// var newData = data.map(function(record){
- 
-//   console.log(record);
-  
-//   record.Net = record.sale - record.Cost;
-//   delete record.sale;
-//   delete record.Cost;
-//   return record;
-// });
-
-// var newWB = xlsx.utils.book_new(); 
-
-// var newWS = xlsx.utils.json_to_sheet(newData);
-
-// xlsx.utils.book_append_sheet(newWB,newWS,"New Data");
-
-// xlsx.writeFile(newWB,"New Data file.xlsx")
+  var getAll = await cartService.getAllCart();
 let workbook = new excel.Workbook(); //creating workbook
 let worksheet = workbook.addWorksheet('Customers'); //creating worksheet
-
 //  WorkSheet Header
 worksheet.columns = [
   { header: 'Id', key: '_id', width: 50 },
-  { header: 'createdAt', key: 'createdAt', width: 50},
+  { header: 'createdAt', key: 'createdAt', width: 20},
   { header: 'idAgency', key: 'idAgency', width: 20},
   { header: 'Sim', key: 'sim', width: 20},
   { header: 'entryPrice', key: 'entryPrice', width: 20},
@@ -79,13 +51,16 @@ worksheet.columns = [
   { header: 'Status', key: 'status', width: 20}, 
 ];
 // Add Array Rows
-worksheet.addRows(getAll);
-
+  worksheet.addRows(getAll);
 // Write to File
-workbook.xlsx.writeFile("customer.xlsx").then(function() {
-    console.log("file saved!");
+  workbook.xlsx.writeFile("customer.xlsx").then(function() {
+    return res.download("./customer.xlsx");
+  }).catch(function(err){
+   return res.json({
+     error:true,
+     message:"lỗi khi tạo excel"
+   })
   });
-res.json("A")
 })
 
 app.use('/', indexRouter);
