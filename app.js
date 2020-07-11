@@ -68,9 +68,15 @@ let worksheet = workbook.addWorksheet('Customers'); //creating worksheet
 //  WorkSheet Header
 worksheet.columns = [
   { header: 'Id', key: '_id', width: 50 },
-  { header: 'Status', key: 'status', width: 50 },
+  { header: 'createdAt', key: 'createdAt', width: 50},
+  { header: 'idAgency', key: 'idAgency', width: 20},
   { header: 'Sim', key: 'sim', width: 20},
-  { header: 'Age', key: 'age', width: 10, outlineLevel: 1}
+  { header: 'entryPrice', key: 'entryPrice', width: 20},
+  { header: 'price', key: 'price', width: 20},
+  { header: 'fee', key: 'fee', width: 20},
+  { header: 'agencySupport', key: 'agencySupport', width: 20},
+  { header: 'feeIfFalse', key: 'feeIfFalse', width: 20},
+  { header: 'Status', key: 'status', width: 20}, 
 ];
 // Add Array Rows
 worksheet.addRows(getAll);
