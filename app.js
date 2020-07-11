@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get("/xuatFile", async function(req,res,next){
   var getAll = await cartService.getAllCart();
 let workbook = new excel.Workbook(); //creating workbook
-let worksheet = workbook.addWorksheet('Customers'); //creating worksheet
+let worksheet = workbook.addWorksheet('Card'); //creating worksheet
 //  WorkSheet Header
 worksheet.columns = [
   { header: 'Id', key: '_id', width: 50 },
@@ -53,8 +53,8 @@ worksheet.columns = [
 // Add Array Rows
   worksheet.addRows(getAll);
 // Write to File
-  workbook.xlsx.writeFile("customer.xlsx").then(function() {
-    return res.download("./customer.xlsx");
+  workbook.xlsx.writeFile("card.xlsx").then(function() {
+    return res.download("./card.xlsx");
   }).catch(function(err){
    return res.json({
      error:true,
