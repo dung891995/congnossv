@@ -17,9 +17,17 @@
         crossorigin="anonymous"></script>
 
 </head>
+<style>
+    .title {
+        text-align: center;
+    }
+</style>
 
 <body>
     <div class="container">
+        <div class="title">
+            <h1>Quản lý Đại Lý</h1>
+        </div>
         <div class="row content">
 
         </div>
@@ -60,30 +68,31 @@
             type: "get"
         }).then(function (data) {
             for (var i = 0; i < data.length; i++) {
+
                 var template = `
-<div class="card col-3" style="width: 18rem;">
-    <div class="card-body">
-    <p>debit: <input class="input-debit"  id='debit-${data[i]._id}' value="${data[i].debit}" /> 
-        <span id="value-debit-${data[i]._id}"> ${data[i].debit} </span> </p>
+                            <div class="card col-3" style="width: 18rem;">
+                                <div class="card-body">
+                                <p>debit: <input class="input-debit"  id='debit-${data[i]._id}' value="${data[i].debit}" /> 
+                                    <span id="value-debit-${data[i]._id}"> ${data[i].debit} </span> </p>
 
-    <p>credit: <input class="input-credit"  id='credit-${data[i]._id}' value="${data[i].credit}" /> 
-        <span id="value-credit-${data[i]._id}"> ${data[i].credit} </span> </p>
+                                <p>credit: <input class="input-credit"  id='credit-${data[i]._id}' value="${data[i].credit}" /> 
+                                    <span id="value-credit-${data[i]._id}"> ${data[i].credit} </span> </p>
 
-    <p>name: <input class="input-name"  id='name-${data[i]._id}' value="${data[i].name}" /> 
-        <span id="value-name-${data[i]._id}"> ${data[i].name} </span></p>
+                                <p>name: <input class="input-name"  id='name-${data[i]._id}' value="${data[i].name}" /> 
+                                    <span id="value-name-${data[i]._id}"> ${data[i].name} </span></p>
 
-    <p>commissionAgency: <input class="input-commissionAgency"  id='commissionAgency-${data[i]._id}' value="${data[i].commissionAgency}" /> 
-        <span id="value-commissionAgency-${data[i]._id}"> ${data[i].commissionAgency} </span> </p>
+                                <p>commissionAgency: <input class="input-commissionAgency"  id='commissionAgency-${data[i]._id}' value="${data[i].commissionAgency}" /> 
+                                    <span id="value-commissionAgency-${data[i]._id}"> ${data[i].commissionAgency} </span> </p>
 
-        
-    <button class="btn btn-primary edit" id='edit-${data[i]._id}' onClick=edit("${data[i]._id}")>Edit</button>
-    <button class="btn btn-warning save" id='save-${data[i]._id}' onClick=save("${data[i]._id}")>Save</button>
-    <button class="btn tn-danger delete" id='delete-${data[i]._id}' onClick=deletee("${data[i]._id}")>Delete</button>
-    <button class="btn tn-danger home" id='home-${data[i]._id}' onClick=home("${data[i]._id}")>home</button>
-    
-    </div>
-</div>
-`
+                                    
+                                <button class="btn btn-primary edit" id='edit-${data[i]._id}' onClick=edit("${data[i]._id}")>Edit</button>
+                                <button class="btn btn-warning save" id='save-${data[i]._id}' onClick=save("${data[i]._id}")>Save</button>
+                                <button class="btn tn-danger delete" id='delete-${data[i]._id}' onClick=deletee("${data[i]._id}")>Delete</button>
+                                <button class="btn tn-danger home" id='home-${data[i]._id}' onClick=home("${data[i]._id}")>home</button>
+                                
+                                </div>
+                            </div>
+                            `
                 $(".content").append(template);
             }
             $(".save").hide();
@@ -107,7 +116,7 @@
         $("#delete-" + id).hide();
         $("#home-" + id).show();
     }
-    function save(id){
+    function save(id) {
         $("#debit-" + id).hide();
         $("#credit-" + id).hide();
         $("#name-" + id).hide();
@@ -133,15 +142,15 @@
                 debit: debit,
                 credit: credit,
                 name: name,
-                commissionAgency:commissionAgency,
+                commissionAgency: commissionAgency,
             }
         }).then(function (data) {
             alert("cập nhập thành công")
             window.location.href = "/page-daili"
         })
     }
-    
-        function deletee(id) {
+
+    function deletee(id) {
         $.ajax({
             url: "/agency/" + id,
             type: "delete"
@@ -150,11 +159,11 @@
             window.location.href = "/page-daili"
         })
     }
-    function home(id){
+    function home(id) {
         window.location.href = "/page-daili"
     }
-    
-    
+
+
 </script>
 
 </html>

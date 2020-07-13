@@ -59,9 +59,9 @@
             </nav>
         </div>
         <div class="text">
-            <a href="http://localhost:3000/page-user"><button type="button" class="btn btn-outline-success demo">Nhân
+            <a href="/page-user"><button type="button" class="btn btn-outline-success demo">Nhân
                     Viên</button></a>
-            <a href="http://localhost:3000/page-daili"><button type="button" class="btn btn-outline-danger demo">Đại
+            <a href="/page-daili"><button type="button" class="btn btn-outline-danger demo">Đại
                     Lí</button></a>
         </div>
     </div>
@@ -82,24 +82,37 @@
                     <th scope="col">Trạng Thái</th>
                     <th scope="col">Nhân Viên</th>
                 </tr>
-
             </thead>
 
             <tbody id="cart-data">
-             
+                <% for(var i = 0; i < page_data.length;i++){ %>
+                <tr>
+                    <th scope="row"> <%= i+1  %> </th>
+                    <td><%= page_data[i].createdAt.toLocaleString() %></td>
+                    <td><%= page_data[i].sim %></td>
+                    <td><%= page_data[i].entryPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %>
+                    </td>
+                    <td><%= page_data[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                    <td><%= page_data[i].idAgency.name %></td>
+                    <td><%= page_data[i].typeTrade %></td>
+                    <td><%= page_data[i].fee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                    <td><%= page_data[i].agencySupport.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %>
+                    </td>
+                    <td><%= page_data[i].status %></td>
+                    <td><%= page_data[i].idUser.name %></td>
+                </tr>
+                <% } %>
             </tbody>
-
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination list-page-link">
-                <li class="page-item previous"><a class="page-link" href="#">Previous</a></li> 
+                <li class="page-item previous"><a class="page-link" href="#">Previous</a></li>
                 <% for(var i = 1; i <= totalPageLink;i++){ %>
-                    <li class="page-item li-link" val="<%= i %>"><a class="page-link" href="#"> <%= i %> </a></li>
-               <% } %>
-               <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item li-link" val="<%= i %>"><a class="page-link" href="#"> <%= i %> </a></li>
+                <% } %>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
         </nav>
-
 </body>
 <script>
     function list_link_page() {
@@ -112,39 +125,44 @@
             var next = `<li class="page-item"><a class="page-link" href="#">Next</a></li>`
             for (var i = 1; i <= data; i++) {
                 var template = `
-                <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
+                <li class="page-item li-link" id="${i}"><a class="page-link" href="#">${i}</a></li>
                 `
                 $(".list-page-link").append(template)
             }
             $(".list-page-link").prepend(previous)
             $(".list-page-link").append(next)
-            $(".li-link").click(function () {
-                var index = $(this).attr("val")
+            
+        })
+    }
+    $(".li-link").click(function () {
+                var index = $('li').attr("id")
+                console.log(index);
                 $('.table').html("")
                 page(index)
             })
-        })
-    }
     function page(numberPage) {
         $.ajax({
             url: "/cart/page/" + numberPage,
             type: "get"
         }).then(function (data) {
+            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 var template = `
+                     <% for(var i = 0; i < page_data.length;i++){ %>
                     <tr>
-                        <th scope="row"> ${i + 1} </th>
-                        <td>${data[i].createdAt.toLocaleString()}</td>
-                        <td>${data[i].sim}</td>
-                        <td>${data[i].entryPrice}</td>
-                        <td>${data[i].price}</td>
-                        <td>${data[i].name}</td>
-                        <td>${data[i].typeTrade}</td>
-                        <td>${data[i].fee}</td>
-                        <td>${data[i].agencySupport}</td>
-                        <td>${data[i].status}</td>
-                        <td>${data[i].user}</td>    
+                        <th scope="row"> <%= i+1  %> </th>
+                        <td><%= page_data[i].createdAt.toLocaleString() %></td>
+                        <td><%= page_data[i].sim %></td>
+                        <td><%= page_data[i].entryPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                        <td><%= page_data[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                        <td><%= page_data[i].idAgency.name %></td>
+                        <td><%= page_data[i].typeTrade %></td>
+                        <td><%= page_data[i].fee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                        <td><%= page_data[i].agencySupport.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
+                        <td><%= page_data[i].status %></td>
+                        <td><%= page_data[i].idUser.name %></td>
                     </tr>
+                    <% } %>
                     `
                 $("#cart-data").append(template);
             }

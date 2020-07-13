@@ -33,35 +33,35 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get("/xuatFile", async function(req,res,next){
-  var getAll = await cartService.getAllCart();
-let workbook = new excel.Workbook(); //creating workbook
-let worksheet = workbook.addWorksheet('Card'); //creating worksheet
-//  WorkSheet Header
-worksheet.columns = [
-  { header: 'Id', key: '_id', width: 50 },
-  { header: 'createdAt', key: 'createdAt', width: 20},
-  { header: 'idAgency', key: 'idAgency', width: 20},
-  { header: 'Sim', key: 'sim', width: 20},
-  { header: 'entryPrice', key: 'entryPrice', width: 20},
-  { header: 'price', key: 'price', width: 20},
-  { header: 'fee', key: 'fee', width: 20},
-  { header: 'agencySupport', key: 'agencySupport', width: 20},
-  { header: 'feeIfFalse', key: 'feeIfFalse', width: 20},
-  { header: 'Status', key: 'status', width: 20}, 
-];
-// Add Array Rows
-  worksheet.addRows(getAll);
-// Write to File
-  workbook.xlsx.writeFile("card.xlsx").then(function() {
-    return res.download("./card.xlsx");
-  }).catch(function(err){
-   return res.json({
-     error:true,
-     message:"lỗi khi tạo excel"
-   })
-  });
-})
+// app.get("/xuatFile", async function(req,res,next){
+//   var getAll = await cartService.getAllCart();
+// let workbook = new excel.Workbook(); //creating workbook
+// let worksheet = workbook.addWorksheet('Cart'); //creating worksheet
+// //  WorkSheet Header
+// worksheet.columns = [
+//   { header: 'Id', key: '_id', width: 50 },
+//   { header: 'createdAt', key: 'createdAt', width: 20},
+//   { header: 'idAgency', key: 'idAgency', width: 20},
+//   { header: 'Sim', key: 'sim', width: 20},
+//   { header: 'entryPrice', key: 'entryPrice', width: 20},
+//   { header: 'price', key: 'price', width: 20},
+//   { header: 'fee', key: 'fee', width: 20},
+//   { header: 'agencySupport', key: 'agencySupport', width: 20},
+//   { header: 'feeIfFalse', key: 'feeIfFalse', width: 20},
+//   { header: 'Status', key: 'status', width: 20}, 
+// ];
+// // Add Array Rows
+//   worksheet.addRows(getAll);
+// // Write to File
+//   workbook.xlsx.writeFile("card.xlsx").then(function() {
+//     return res.download("./card.xlsx");
+//   }).catch(function(err){
+//    return res.json({
+//      error:true,
+//      message:"lỗi khi tạo excel"
+//    })
+//   });
+// })
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

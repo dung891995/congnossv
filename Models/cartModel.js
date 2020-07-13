@@ -15,8 +15,6 @@ var cartSchema = new mongoose.Schema({
     agencySupport: Number,
     feeIfFalse:Number,
     typeTrade:String,
-    name:String,
-    user:String,
     status: {
         type: String,
         default: 'pending'

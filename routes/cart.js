@@ -9,7 +9,7 @@ const {authToken} =require('../Middleware/userAuth');
 const DATA_PER_PAGE = 10;
 router.get('/', function (req, res, next) { 
     let textSearch=req.query.textSearch
-    CartService.getAll({'sim':{ '$regex': `${textSearch}`}}).then((result) => {
+    CartService.getAllCart().then((result) => {
  
         res.json(result); 
         // console.log(result[0]);
@@ -140,7 +140,7 @@ router.get("/totalPageLinkCart", function (req, res, next) {
   })
 router.get("/page/:currentPage", function (req, res, next) {
 var currentPage = req.params.currentPage;
-CartService.pageCart(currentPage, DATA_PER_PAGE).then(function (data) {
+CartService.pageCart(currentPage, DATA_PER_PAGE).populate("idAgency").populate('idUser').then(function (data) {
     res.json(data)
 })
 })

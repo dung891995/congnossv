@@ -9,7 +9,7 @@ const DATA_PER_PAGE = 10;
 router.get('/', async function (req, res, next) {
 
   var getAllAgency = await agencyService.getALlAgency();
-  res.render('index', { getAllAgency: getAllAgency });
+  res.render('login', { getAllAgency: getAllAgency });
 });
 
 router.get('/login', function (req, res, next) {
@@ -22,8 +22,8 @@ router.get('/homeuser', async function (req, res, next) {
 router.get('/home-admin', async function (req, res, next) {
   var cart_data = await cartService.getAllCart();
   var totalPageLink = Math.ceil(cart_data.length / DATA_PER_PAGE);
-  var page_data =await cartService.pageCart(1, DATA_PER_PAGE);
-  res.render('homeadmin', { totalPageLink: totalPageLink, page_data:page_data })
+  var page_data = await cartService.pageCart(1, DATA_PER_PAGE).populate("idUser").populate("idAgency");
+  res.render('homeadmin', { totalPageLink: totalPageLink, page_data:page_data})
 })
 router.get('/page-user', function (req, res, next) {
   res.render('quanliuser')
