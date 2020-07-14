@@ -112,12 +112,14 @@ router.put('/changestatus/:id', async function (req, res, next) {
     });
 })
 
+//phân trang
 router.get("/totalPageLinkCart", function (req, res, next) {
     CartService.getAllCart().then(function (data) {
         var totalPageLink = Math.ceil(data.length / DATA_PER_PAGE);
         res.json(totalPageLink)
     })
   })
+  // phân trang
 router.get("/page/:currentPage", function (req, res, next) {
 var currentPage = req.params.currentPage;
 CartService.pageCart(currentPage, DATA_PER_PAGE).then(function (data) {
