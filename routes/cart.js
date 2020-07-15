@@ -67,7 +67,7 @@ router.post('/', async function (req, res, next) {
             req.body.fee,
             req.body.agencySupport,
             req.body.feeIfFalse,
-            'Đại Lý Giao',
+            'dailygiao',
             req.body.name,
             idUser.name
 
@@ -107,7 +107,7 @@ router.post('/giaotructiep', async function (req, res, next) {
             req.body.fee,
             req.body.agencySupport,
             req.body.feeIfFalse,
-            'Giao Trực Tiếp',
+            'giaotructiep',
             req.body.name,
             
         )

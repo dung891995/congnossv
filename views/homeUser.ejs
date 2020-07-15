@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="/vendor/fontawesome/js/all.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="../javascripts/js/simple.money.format.js"></script>
+
   <script lang="javascript" src="dist/xlsx.full.min.js"></script>
   <title>Home User</title>
   <style>
@@ -28,6 +30,7 @@
 
 <body>
   <div class="header">
+    <h1 style="text-align: center;font-size: 100px;">Sim Số</h1>
    <div class="container">
      <div class="row">
       <button type="button" class="btn btn-primary col-3"  data-toggle="modal" data-target="#giaoTrucTiepModal"
@@ -64,23 +67,23 @@
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Giá Nhập:</label>
-                <input type="text" class="form-control entryPrice" id="recipient-name" name="entryPrice">
+                <input type="text" class="form-control entryPrice money" id="recipient-name" name="entryPrice">
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Giá Bán:</label>
-                <input type="text" class="form-control price" id="recipient-name" name="price">
+                <input type="text" class="form-control price money" id="recipient-name" name="price">
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
-                <input type="text" class="form-control fee" id="recipient-name" name="fee">
+                <input type="text" class="form-control fee money" id="recipient-name" name="fee">
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Đại lí hỗ trợ:</label>
-                <input type="text" class="form-control agencySupport" id="recipient-name" name="agencySupport">
+                <input type="text" class="form-control agencySupport money" id="recipient-name" name="agencySupport">
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">chi phi nếu thất bại:</label>
-                <input type="text" class="form-control feeIfFalse" id="recipient-name" name="feeIfFalse">
+                <input type="text" class="form-control feeIfFalse money" id="recipient-name" name="feeIfFalse">
               </div>
             </form>
           </div>
@@ -119,23 +122,23 @@
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Giá Nhập:</label>
-                    <input type="text" class="form-control entryPrice" id="recipient-name" name="entryPrice">
+                    <input type="text" class="form-control entryPrice money" id="recipient-name" name="entryPrice">
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Giá Bán:</label>
-                    <input type="text" class="form-control price" id="recipient-name" name="price">
+                    <input type="text" class="form-control price money" id="recipient-name" name="price">
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Chi phí giao Sim:</label>
-                    <input type="text" class="form-control fee" id="recipient-name" name="fee">
+                    <input type="text" class="form-control fee money" id="recipient-name" name="fee">
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Đại lí hỗ trợ:</label>
-                    <input type="text" class="form-control agencySupport" id="recipient-name" name="agencySupport">
+                    <input type="text" class="form-control agencySupport money" id="recipient-name" name="agencySupport">
                   </div>
                   <div class="form-group">
                     <label for="recipient-name" class="col-form-label">chi phi nếu thất bại:</label>
-                    <input type="text" class="form-control feeIfFalse" id="recipient-name" name="feeIfFalse">
+                    <input type="text" class="form-control feeIfFalse money" id="recipient-name" name="feeIfFalse">
                   </div>
                 </form>
               </div>
@@ -151,7 +154,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">STT Đơn hàng</th>
+            <th scope="col">STT</th>
             <th scope="col">Thời gian</th>
             <th scope="col">Đại Lý</th>
             <th scope="col">Số Sim</th>
@@ -200,7 +203,7 @@
             <td style="width: 50px;">
               <!--video context -->
               <button class="btn btn-primary btn-sm" type="button"
-                onClick=nosuccess.call(this,"<%= getAllCart[i]._id %>")>không thành công</button>
+                onClick=nosuccess.call(this,"<%= getAllCart[i]._id %>")>thất bại</button>
               <button class="btn btn-primary btn-sm" type="button"
                 onClick=success.call(this,"<%= getAllCart[i]._id %>")>thành công</button>
             </td>
@@ -215,7 +218,7 @@
 
 </html>
 <script>
-
+$('.money').simpleMoneyFormat();
 
   $.ajax({
     url: '/agency',

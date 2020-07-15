@@ -83,9 +83,11 @@
                     <th scope="col">Trạng Thái</th>
 
                 </tr>
+
             </thead>
 
             <tbody id="cart-data">
+
                 <% for(var i = 0; i < page_data.length;i++){ %>
                 <tr>
                     <th scope="row"> <%= i+1  %> </th>
@@ -102,6 +104,7 @@
                 </tr>
                 <% } %>
             </tbody>
+
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination list-page-link">
@@ -112,6 +115,7 @@
                 <li class="page-item next" val="<%=i%>"><a class="page-link" href="#">Next</a></li>
             </ul>
         </nav>
+
 </body>
 <script>
       $(".next").click(function () {
@@ -149,7 +153,7 @@
         }).then(function (data) {
             for (var i = 1; i <= data; i++) {
                 var template = `
-                <li class="page-item li-link" id="${i}"><a class="page-link" href="#">${i}</a></li>
+                <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
                 `
                 $(".previous").append(template)
             }
@@ -164,24 +168,21 @@
             url: "/cart/page/" + numberPage,
             type: "get"
         }).then(function (data) {
-            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 var template = `
-                     <% for(var i = 0; i < page_data.length;i++){ %>
                     <tr>
-                        <th scope="row"> <%= i+1  %> </th>
-                        <td><%= page_data[i].createdAt.toLocaleString() %></td>
-                        <td><%= page_data[i].sim %></td>
-                        <td><%= page_data[i].entryPrice.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
-                        <td><%= page_data[i].price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
-                        <td><%= page_data[i].idAgency.name %></td>
-                        <td><%= page_data[i].typeTrade %></td>
-                        <td><%= page_data[i].fee.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
-                        <td><%= page_data[i].agencySupport.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}) %></td>
-                        <td><%= page_data[i].status %></td>
-                        <td><%= page_data[i].idUser.name %></td>
+                        <th scope="row"> ${i + 1} </th>
+                        <td>${data[i].createdAt.toLocaleString()}</td>
+                        <td>${data[i].sim}</td>
+                        <td>${data[i].entryPrice}</td>
+                        <td>${data[i].price}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].typeTrade}</td>
+                        <td>${data[i].fee}</td>
+                        <td>${data[i].agencySupport}</td>
+                        <td>${data[i].status}</td>
+                        <td>${data[i].user}</td>    
                     </tr>
-                    <% } %>
                     `
                 $("#cart-data").append(template);
             }

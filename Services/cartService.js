@@ -18,7 +18,7 @@ function getCartBySim(sim) {
     return CartModel.findOne({ sim: sim })
 }
 
-function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade,name,user) {
+function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade, name, user) {
 
     return CartModel.create({
         sim: sim,
@@ -30,8 +30,8 @@ function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, f
         agencySupport: agencySupport,
         feeIfFalse: feeIfFalse,
         typeTrade: typeTrade,
-        name:name,
-        user:user
+        name: name,
+        user: user
 
     })
 }
@@ -56,7 +56,7 @@ async function updateStatusCart(id) {
                 //cong hien tai cua dai li
                 var debitOfAgency = newCart.idAgency.debit
                 // tổng tiền đại lí nợ
-                var newDebit = await AgencyService.updateCredit(newCart.idAgency._id, debitThisCart + debitOfAgency)
+                var newDebit = await AgencyService.updateDebit(newCart.idAgency._id, debitThisCart + debitOfAgency)
             }
             if (newCart.typeTrade == "giaotructiep") {
                 // tong tien no dai li cua don hang
@@ -64,7 +64,7 @@ async function updateStatusCart(id) {
                 // no dai li hien tai
                 var creditOfAgency = newCart.idAgency.credit
                 // tong tien no dai li
-                var newCredit = await AgencyService.updateDebit(newCart.idAgency._id, creditThisCart + creditOfAgency)
+                var newCredit = await AgencyService.updateCredit(newCart.idAgency._id, creditThisCart + creditOfAgency)
             }
 
             //tong thu nhap tren don hang
@@ -78,7 +78,7 @@ async function updateStatusCart(id) {
             // tong tien luong cua nhan vien hien tai
             var newSalaryUser = await UserService.updateSalary(newCart.idUser._id, salaryOfUser + salaryThisCart)
             //tong thu nhap
-            var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryOfUser });
+            var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryThisCart });
             return {
                 error: false,
                 message: "cap nhat thanh cong"
@@ -111,14 +111,13 @@ async function buttonFalse(id) {
     }
 }
 
-
 function page(npage) {
     return CartModel.find().skip((npage - 1) * 3).limit(3)
 }
-function pageCart(currentPage,dataPerPage){
-    return CartModel.find().skip((currentPage-1)*dataPerPage).limit(dataPerPage)
+function pageCart(currentPage, dataPerPage) {
+    return CartModel.find().skip((currentPage - 1) * dataPerPage).limit(dataPerPage)
 }
-module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart ,page,getCartofUser,pageCart,getCartBySim}
+module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart, page, getCartofUser, pageCart, getCartBySim }
 
 
 

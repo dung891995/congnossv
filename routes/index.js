@@ -12,6 +12,9 @@ router.get('/', async function (req, res, next) {
   res.render('login', { getAllAgency: getAllAgency });
 });
 
+router.get('/addagency',function (req, res, next) {
+  res.render('addagency')
+})
 router.get('/login', function (req, res, next) {
   res.render('login')
 })
