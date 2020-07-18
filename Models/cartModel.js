@@ -23,6 +23,15 @@ var cartSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
+    salaryThisCart:{
+        type:Number,
+        default:0
+    },
+    khachHoTro:Number,
+    note:{
+        type:String,
+        default:null
+    }
     // createAt:{
     //     type:String,
     //     default:(new Date())

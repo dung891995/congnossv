@@ -17,8 +17,11 @@ function getCartofUser(id) {
 function getCartBySim(sim) {
     return CartModel.findOne({ sim: sim })
 }
+function saveNote(id,note) {
+    return CartModel.findByIdAndUpdate({_id:id},{note:note},{new:true})
+}
 
-function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, feeIfFalse, typeTrade, name, user) {
+function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport,khachHoTro, feeIfFalse, typeTrade, name, user) {
 
     return CartModel.create({
         sim: sim,
@@ -28,6 +31,7 @@ function newCart(sim, idAgency, idUser, entryPrice, price, fee, agencySupport, f
         price: price,
         fee: fee,
         agencySupport: agencySupport,
+        khachHoTro:khachHoTro,
         feeIfFalse: feeIfFalse,
         typeTrade: typeTrade,
         name: name,
@@ -46,8 +50,7 @@ function updateIncome(id, income) {
 async function updateStatusCart(id) {
 
     try {
-        var newCart = await CartModel.findByIdAndUpdate({ _id: id }, { status: 'success' }, { new: true }).populate('idUser').populate("idAgency")
-        // console.log(newCart);
+        var newCart = await CartModel.findByIdAndUpdate({ _id: id }, { status: 'success' }, { new: true }).populate('idUser').populate("idAgency");
         if (newCart.status == 'success') {
 
             if (newCart.typeTrade == "dailygiao") {
@@ -71,23 +74,28 @@ async function updateStatusCart(id) {
             var currentIncome = (newCart.entryPrice * newCart.idAgency.commissionAgency / 100) +
                 (newCart.price - newCart.entryPrice) - newCart.fee + newCart.agencySupport - newCart.feeIfFalse;
             //user
-            // luong cua nhan vien
+            // luong cua nhan vien dang co
             var salaryOfUser = newCart.idUser.salary;
             //hoa hong cua nhan vien tren don hang
-            var salaryThisCart = newCart.idUser.commissionUser / 100 * currentIncome;
+            var salaryUser = newCart.idUser.commissionUser / 100 * currentIncome;
+            var updateSalaryByCart = await CartModel.updateOne({ _id: id }, { salaryThisCart: salaryUser });
+
             // tong tien luong cua nhan vien hien tai
-            var newSalaryUser = await UserService.updateSalary(newCart.idUser._id, salaryOfUser + salaryThisCart)
+            // console.log(salaryOfUser,salaryUser)
+            var newSalaryUser = await UserService.updateSalary(newCart.idUser._id, salaryOfUser + salaryUser);
+
             //tong thu nhap
-            var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryThisCart });
+            var newIncome = await CartModel.findByIdAndUpdate(id, { income: currentIncome - salaryUser });
             return {
                 error: false,
                 message: "cap nhat thanh cong"
             }
         }
+
     } catch (error) {
         return {
             error: true,
-            message: error
+            message: "loi o service", error
         }
     }
 
@@ -117,7 +125,7 @@ function page(npage) {
 function pageCart(currentPage, dataPerPage) {
     return CartModel.find().skip((currentPage - 1) * dataPerPage).limit(dataPerPage)
 }
-module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart, page, getCartofUser, pageCart, getCartBySim }
+module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart, page, getCartofUser, pageCart, getCartBySim ,saveNote}
 
 
 
