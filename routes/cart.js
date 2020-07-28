@@ -51,15 +51,15 @@ router.put('/note/:id',function (req, res, next) {
 //name,sim,entryPrice,price,commissionAgency,commissionUser,fee,agencySupport
 router.post('/', async function (req, res, next) {
     //check type cua du lieu
-    if (isNaN(req.body.entryPrice) || isNaN(req.body.price) || isNaN(req.body.fee) || isNaN(req.body.agencySupport) || isNaN(req.body.feeIfFalse) 
-    || isNaN(req.body.khachHoTro)
-    ) {
+    // if (isNaN(req.body.entryPrice) || isNaN(req.body.price) || isNaN(req.body.fee) || isNaN(req.body.agencySupport) || isNaN(req.body.feeIfFalse) 
+    // || isNaN(req.body.khachHoTro)
+    // ) {
         
-        res.json({
-            error: true,
-            message: 'vui long nhap lai'
-        })
-    } else {
+    //     res.json({
+    //         error: true,
+    //         message: 'vui long nhap lai'
+    //     })
+    // } else {
         console.log(req.body.name);
         //get idUser from token
         var token = req.cookies.token;
@@ -86,7 +86,7 @@ router.post('/', async function (req, res, next) {
 
         )
        return res.json(dataCart)
-    }
+    // }
 
 })
 

@@ -5,25 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
-        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="https://formden.com/static/cdn/formden.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css">
+    <link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css">
+
     <style>
-        .demo {
+        /* .demo {
             width: 200px;
             height: 50px;
-        }
+        } */
 
-        .text {
+        /* .text {
             padding-left: 200px;
-        }
+        } */
 
         .header {
 
@@ -44,6 +40,7 @@
             width: 200px;
             height: 36px;
         }
+        .bootstrap-iso .formden_header h2, .bootstrap-iso .formden_header p, .bootstrap-iso form{font-family: Arial, Helvetica, sans-serif; color: black}.bootstrap-iso form button, .bootstrap-iso form button:hover{color: white !important;} .asteriskField{color: red;}
     </style>
 </head>
 
@@ -58,11 +55,34 @@
                 </form>
             </nav>
         </div>
-        <div class="text">
-            <a href="/page-user"><button type="button" class="btn btn-outline-success demo">Nhân
-                    Viên</button></a>
-            <a href="/page-daili"><button type="button" class="btn btn-outline-danger demo">Đại
-                    Lí</button></a>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text">
+                        <a href="/page-user"><button type="button" class="btn btn-outline-success">Nhân
+                                Viên</button></a>
+                        <a href="/page-daili"><button type="button" class="btn btn-outline-danger">Đại
+                                Lí</button></a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-inline">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="start_date">From </label>
+                                <input type="text" class="form-control" id="date" placeholder="" name="start_date" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="end_date">To </label>
+                                <input type="text" class="form-control" id="date" placeholder="" name="end_date" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -116,8 +136,24 @@
             </ul>
         </nav>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
 </body>
 <script>
+
+        $(document).ready(function(){
+            var date_input=$('input[name="date"]'); //our date input has the name "date"
+            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            })
+        })
+
       $(".next").click(function () {
         var indexPage = parseInt($(this).attr("val"));
         var totalPage =parseInt( $(".li-link").last().attr("val"))
@@ -156,11 +192,7 @@
                 <li class="page-item li-link" val="${i}"><a class="page-link" href="#">${i}</a></li>
                 `
                 $(".previous").append(template)
-            }
-           
-
-
-            
+            } 
         })
     }
     function page(numberPage) {
@@ -189,6 +221,10 @@
 
         })
     }
+
+    $(function () {
+        $('#datetimepicker4').datepicker();
+    });
 </script>
 
 </html>
