@@ -70,6 +70,8 @@
                 autoclose: true,
                 todayHighlight: true,
             });
+
+            $("#date").datepicker('setDate', new Date());
         });
     </script>
 
@@ -89,7 +91,7 @@
         </div>
         <div class="container position">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="text">
                         <a href="/page-user"><button type="button" class="staff btn btn-outline-success">Nhân
                                 Viên</button></a>
@@ -97,23 +99,30 @@
                                 Lí</button></a>
                     </div>
                 </div>
-
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-inline input-daterange" id="datepicker">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="start_date">From </label>
-                                <input type="text" class="form-control" id="date" placeholder="..." name="start_date" />
+                <div class="col-md-8">
+                    <form method="POST" action="" id="e_ajax_submit">
+                        <div class="form-inline input-daterange" id="datepicker">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="start_date">From </label>
+                                    <input type="text" class="form-control" id="date" placeholder="..." name="start_date" />
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="end_date">To </label>
+                                    <input type="text" class="form-control" id="date" placeholder="..." name="end_date" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <class="form-group">
+                                    <button type="submit" class="btn btn-default" id="e_ajax_submit">Submit</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="end_date">To </label>
-                                <input type="text" class="form-control" id="date" placeholder="..." name="end_date" />
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -174,18 +183,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
 </body>
 <script>
-
-        $(document).ready(function(){
-            var date_input=$('input[name="date"]'); //our date input has the name "date"
-            var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-            date_input.datepicker({
-                format: 'mm/dd/yyyy',
-                container: container,
-                todayHighlight: true,
-                autoclose: true,
-            })
-        })
-
+       
       $(".next").click(function () {
         var indexPage = parseInt($(this).attr("val"));
         var totalPage =parseInt( $(".li-link").last().attr("val"))
@@ -254,9 +252,29 @@
         })
     }
 
-    $(function () {
-        $('#datetimepicker4').datepicker();
+    $(document).on("submit", "#e_ajax_submit", function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var button = form.find('#e_btn_submit');
+        button.attr('disabled', 'disabled');
+        var data = {};
+        data.from = form.find('input[name="start_date"]').val();
+        data.to = form.find('input[name="end_date"]').val();
+        $.ajax({
+           type: "POST",
+            url: '/cart/selecttime',
+            data: JSON.stringify(data),
+			contentType: 'application/json',
+            success: function (res) {
+                console.log('success');
+                console.log(JSON.stringify(res));
+                
+            }, error: function (err) {
+
+            }
+        });
     });
+
 </script>
 
 </html>

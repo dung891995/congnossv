@@ -125,7 +125,13 @@ function page(npage) {
 function pageCart(currentPage, dataPerPage) {
     return CartModel.find().skip((currentPage - 1) * dataPerPage).limit(dataPerPage)
 }
-module.exports = { newCart, editStatus, getAllCart, updateIncome, updateStatusCart, page, getCartofUser, pageCart, getCartBySim ,saveNote}
+
+function selectTime(from,to) {
+    return CartModel.find({created_on: {'createAt': from, 'updateAt': to}})
+    // return CartModel.findOne({created: {$gte: from}},{created: {$lte: to} })
+}
+
+module.exports = { selectTime, newCart, editStatus, getAllCart, updateIncome, updateStatusCart, page, getCartofUser, pageCart, getCartBySim ,saveNote }
 
 
 
